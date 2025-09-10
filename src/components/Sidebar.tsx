@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Cloud, 
   Database, 
@@ -13,7 +16,9 @@ import {
   X,
   Coins,
   Network,
-  Shield
+  Shield,
+  LogOut,
+  User
 } from "lucide-react";
 
 interface SidebarProps {
@@ -34,6 +39,26 @@ const menuItems = [
 
 export default function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast({
+        title: "Logout Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Logged Out",
+        description: "Successfully logged out from IndoBlockCloud",
+      });
+      navigate('/auth');
+    }
+  };
 
   return (
     <div className={cn(
@@ -87,13 +112,38 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
         })}
       </nav>
 
-      {/* Status Panel */}
+      {/* User Panel & Status */}
       {!isCollapsed && (
-        <div className="absolute bottom-4 left-4 right-4">
-          <div className="bg-gradient-to-r from-cyber-purple/20 to-cyber-cyan/20 rounded-lg p-4 border border-accent/30">
+        <div className="absolute bottom-4 left-4 right-4 space-y-3">
+          {/* User Info */}
+          <div className="bg-muted/20 rounded-lg p-3 border border-accent/30">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 rounded-full bg-cyber-purple/20">
+                <User className="w-4 h-4 text-cyber-purple" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium truncate">
+                  {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}
+                </p>
+                <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+              </div>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLogout}
+              className="w-full justify-start gap-2 h-8"
+            >
+              <LogOut className="w-3 h-3" />
+              Logout
+            </Button>
+          </div>
+          
+          {/* Network Status */}
+          <div className="bg-gradient-to-r from-cyber-purple/20 to-cyber-cyan/20 rounded-lg p-3 border border-accent/30">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-muted-foreground">Network Status</span>
-              <Badge variant="secondary" className="bg-success/20 text-success border-success/30">
+              <span className="text-xs text-muted-foreground">Network Status</span>
+              <Badge variant="secondary" className="bg-success/20 text-success border-success/30 text-xs">
                 Online
               </Badge>
             </div>

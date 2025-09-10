@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useUserData } from "@/hooks/useUserData";
 import { 
   TrendingUp, 
   Database, 
@@ -18,6 +19,14 @@ import {
 import heroImage from "@/assets/hero-blockchain.jpg";
 
 export default function Dashboard() {
+  const { balance, files, loading } = useUserData();
+  
+  // Calculate stats from real data
+  const totalStorage = files.reduce((acc, file) => acc + file.size_bytes, 0);
+  const totalStorageGB = (totalStorage / (1024 * 1024 * 1024)).toFixed(1);
+  const activeFiles = files.filter(f => f.status === 'distributed').length;
+  const indoBalance = balance?.indo_balance || 0;
+  const totalEarned = balance?.total_earned || 0;
   return (
     <div className="space-y-6">
       {/* Hero Section */}
@@ -62,8 +71,8 @@ export default function Dashboard() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Total Storage</p>
-                <p className="text-2xl font-bold">2.4 TB</p>
-                <p className="text-xs text-success">+12% this month</p>
+                <p className="text-2xl font-bold">{totalStorageGB} GB</p>
+                <p className="text-xs text-success">{activeFiles} files distributed</p>
               </div>
             </div>
           </CardContent>
@@ -92,8 +101,8 @@ export default function Dashboard() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">INDO Balance</p>
-                <p className="text-2xl font-bold">1,250.45</p>
-                <p className="text-xs text-success">$2,847.32 USD</p>
+                <p className="text-2xl font-bold">{indoBalance.toFixed(2)}</p>
+                <p className="text-xs text-success">${(indoBalance * 2.28).toFixed(2)} USD</p>
               </div>
             </div>
           </CardContent>
@@ -106,9 +115,9 @@ export default function Dashboard() {
                 <Network className="w-6 h-6 text-cyber-pink" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Node Rewards</p>
-                <p className="text-2xl font-bold">127.8</p>
-                <p className="text-xs text-cyber-pink">Weekly earnings</p>
+                <p className="text-sm text-muted-foreground">Total Earned</p>
+                <p className="text-2xl font-bold">{totalEarned.toFixed(1)}</p>
+                <p className="text-xs text-cyber-pink">All-time rewards</p>
               </div>
             </div>
           </CardContent>
