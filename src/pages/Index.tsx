@@ -1,12 +1,61 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Sidebar from "@/components/Sidebar";
+import Dashboard from "@/components/Dashboard";
+import StorageSection from "@/components/StorageSection";
+import NodeMarketplace from "@/components/NodeMarketplace";
+import WalletSection from "@/components/WalletSection";
+import ComputeSection from "@/components/ComputeSection";
+import { cn } from "@/lib/utils";
 
 const Index = () => {
+  const [activeSection, setActiveSection] = useState("dashboard");
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case "storage":
+        return <StorageSection />;
+      case "marketplace":
+        return <NodeMarketplace />;
+      case "wallet":
+        return <WalletSection />;
+      case "compute":
+        return <ComputeSection />;
+      case "tokens":
+        return (
+          <div className="flex items-center justify-center h-64">
+            <p className="text-muted-foreground">INDO Token management coming soon...</p>
+          </div>
+        );
+      case "security":
+        return (
+          <div className="flex items-center justify-center h-64">
+            <p className="text-muted-foreground">ZK Security features coming soon...</p>
+          </div>
+        );
+      case "settings":
+        return (
+          <div className="flex items-center justify-center h-64">
+            <p className="text-muted-foreground">Settings panel coming soon...</p>
+          </div>
+        );
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Sidebar 
+        activeSection={activeSection}
+        onSectionChange={setActiveSection}
+      />
+      
+      <main className={cn(
+        "transition-all duration-300 pl-64 p-6",
+        "ml-0 pl-64" // Always account for sidebar width
+      )}>
+        {renderContent()}
+      </main>
     </div>
   );
 };
