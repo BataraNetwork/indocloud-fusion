@@ -38,7 +38,7 @@ export const useAuth = () => {
   const signUp = async (email: string, password: string, displayName?: string) => {
     const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -48,7 +48,8 @@ export const useAuth = () => {
         },
       },
     });
-    return { error };
+    
+    return { data, error };
   };
 
   const signOut = async () => {
