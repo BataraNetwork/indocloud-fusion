@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
 import Dashboard from "@/components/Dashboard";
-import StorageSection from "@/components/StorageSection";
-import NodeMarketplace from "@/components/NodeMarketplace";
-import WalletSection from "@/components/WalletSection";
+import NetworkStats from "@/components/NetworkStats";
+import EnhancedStorageSection from "@/components/EnhancedStorageSection";
+import EnhancedNodeMarketplace from "@/components/EnhancedNodeMarketplace";
+import EnhancedWalletSection from "@/components/EnhancedWalletSection";
 import ComputeSection from "@/components/ComputeSection";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -53,12 +54,14 @@ const Index = () => {
 
   const renderContent = () => {
     switch (activeSection) {
+      case "network":
+        return <NetworkStats />;
       case "storage":
-        return <StorageSection />;
+        return <EnhancedStorageSection />;
       case "marketplace":
-        return <NodeMarketplace />;
+        return <EnhancedNodeMarketplace />;
       case "wallet":
-        return <WalletSection />;
+        return <EnhancedWalletSection />;
       case "compute":
         return <ComputeSection />;
       case "tokens":

@@ -8,76 +8,80 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Dark theme by default for Web3 aesthetic */
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    /* Enhanced dark theme for Web3 aesthetics */
+    --background: 222 47% 4%;
+    --foreground: 210 40% 98%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 222 47% 4%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 240 5% 6%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 222 47% 6%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Blockchain-inspired purple/blue gradient primary */
-    --primary: 263 70% 50%;
-    --primary-foreground: 0 0% 98%;
+    /* Enhanced cyber purple primary */
+    --primary: 263 85% 58%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 240 4% 16%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 217 32% 15%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 217 32% 15%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 263 70% 50%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 263 85% 58%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 240 4% 16%;
-    --input: 240 4% 16%;
-    --ring: 263 70% 50%;
+    --border: 217 32% 17%;
+    --input: 217 32% 15%;
+    --ring: 263 85% 58%;
 
     --radius: 0.75rem;
 
-    /* Custom Web3 colors */
-    --cyber-blue: 194 100% 50%;
-    --cyber-cyan: 180 100% 50%;
-    --cyber-purple: 263 70% 50%;
-    --cyber-pink: 316 70% 50%;
-    --success: 142 76% 36%;
-    --warning: 38 92% 50%;
+    /* Enhanced cyber color palette */
+    --cyber-blue: 194 100% 60%;
+    --cyber-cyan: 180 100% 60%;
+    --cyber-purple: 263 85% 58%;
+    --cyber-pink: 316 85% 60%;
+    --cyber-green: 142 85% 45%;
+    --cyber-orange: 38 100% 60%;
+    --success: 142 85% 45%;
+    --warning: 38 100% 60%;
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(263 70% 50%), hsl(194 100% 50%));
-    --gradient-cyber: linear-gradient(135deg, hsl(263 70% 50%), hsl(316 70% 50%), hsl(194 100% 50%));
+    /* Enhanced gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(263 85% 58%), hsl(194 100% 60%));
+    --gradient-cyber: linear-gradient(135deg, hsl(263 85% 58%), hsl(316 85% 60%), hsl(194 100% 60%));
+    --gradient-cosmic: linear-gradient(135deg, hsl(263 85% 58%), hsl(283 85% 58%), hsl(316 85% 60%));
+    --gradient-neon: linear-gradient(135deg, hsl(180 100% 60%), hsl(194 100% 60%), hsl(263 85% 58%));
     --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    --gradient-card: linear-gradient(135deg, rgba(106, 90, 205, 0.1), rgba(0, 188, 212, 0.05));
     
-    /* Glass morphism */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    /* Enhanced glass morphism */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-backdrop: blur(20px);
     
-    /* Shadows */
-    --shadow-glow: 0 0 20px hsl(263 70% 50% / 0.3);
-    --shadow-cyber: 0 0 30px hsl(194 100% 50% / 0.2);
+    /* Enhanced shadows and glows */
+    --shadow-glow: 0 0 40px hsl(263 85% 58% / 0.4);
+    --shadow-cyber: 0 0 50px hsl(194 100% 60% / 0.3);
+    --shadow-neon: 0 0 60px hsl(180 100% 60% / 0.25);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-elevation: 0 20px 40px rgba(0, 0, 0, 0.2);
     
-    /* Animation */
+    /* Enhanced animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-glow: box-shadow 0.3s ease-in-out;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
+    --sidebar-background: 222 47% 3%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 263 85% 58%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 217 32% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 32% 17%;
   }
 
   .dark {
@@ -126,5 +130,127 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Glassmorphism utilities */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+  }
+  
+  .glass-card {
+    @apply glass rounded-xl shadow-lg;
+    box-shadow: var(--shadow-card);
+  }
+  
+  /* Glow effects */
+  .glow-cyber {
+    box-shadow: var(--shadow-glow);
+    transition: var(--transition-glow);
+  }
+  
+  .glow-cyber:hover {
+    box-shadow: 0 0 60px hsl(263 85% 58% / 0.6);
+  }
+  
+  .glow-neon {
+    box-shadow: var(--shadow-neon);
+    transition: var(--transition-glow);
+  }
+  
+  /* Gradient text */
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .gradient-cosmic {
+    background: var(--gradient-cosmic);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Animated borders */
+  .animated-border {
+    position: relative;
+    background: var(--gradient-card);
+    border-radius: 0.75rem;
+    padding: 1px;
+  }
+  
+  .animated-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-primary);
+    border-radius: inherit;
+    padding: 1px;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation: borderGlow 3s ease-in-out infinite alternate;
+  }
+  
+  @keyframes borderGlow {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+  
+  /* Pulse animations */
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulseGlow {
+    0%, 100% { 
+      box-shadow: 0 0 20px hsl(263 85% 58% / 0.3);
+    }
+    50% { 
+      box-shadow: 0 0 40px hsl(263 85% 58% / 0.6);
+    }
+  }
+  
+  /* Hover effects */
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elevation);
+  }
+  
+  /* Data visualization */
+  .chart-gradient {
+    background: var(--gradient-neon);
+    mask: linear-gradient(to top, transparent 0%, black 100%);
+  }
+  
+  /* Network status indicators */
+  .status-online {
+    @apply relative;
+  }
+  
+  .status-online::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    background: var(--cyber-green);
+    border-radius: 50%;
+    animation: statusPulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.2); }
   }
 }
