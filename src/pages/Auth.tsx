@@ -10,25 +10,33 @@ import SignUpForm from "@/components/auth/SignUpForm";
 export default function Auth() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { isLoading, error, handleSignIn, handleSignUp, handleResetPassword } = useAuthActions();
 
-  // Redirect if already logged in
+  const {
+    isLoading,
+    error,
+    handleSignIn,
+    handleSignUp,
+    handleResetPassword,
+  } = useAuthActions();
+
+  // Redirect jika user sudah login
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate("/", { replace: true });
     }
   }, [user, navigate]);
 
   return (
     <AuthLayout>
-      <Tabs defaultValue="signin" className="w-full">
+      <Tabs defaultValue="signin" className="w-full" aria-label="Authentication Tabs">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="signin">Sign In</TabsTrigger>
           <TabsTrigger value="signup">Sign Up</TabsTrigger>
         </TabsList>
-        
+
+        {/* Sign In */}
         <TabsContent value="signin">
-          <SignInForm 
+          <SignInForm
             onSubmit={handleSignIn}
             onResetPassword={handleResetPassword}
             isLoading={isLoading}
@@ -36,8 +44,9 @@ export default function Auth() {
           />
         </TabsContent>
 
+        {/* Sign Up */}
         <TabsContent value="signup">
-          <SignUpForm 
+          <SignUpForm
             onSubmit={handleSignUp}
             isLoading={isLoading}
             error={error}
@@ -46,4 +55,4 @@ export default function Auth() {
       </Tabs>
     </AuthLayout>
   );
-}
+        }
