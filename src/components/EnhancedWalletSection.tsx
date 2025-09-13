@@ -5,6 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import WalletConnect from "@/components/web3/WalletConnect";
+import SmartContractActions from "@/components/web3/SmartContractActions";
+import ContractEventListener from "@/components/web3/ContractEventListener";
 import { 
   Wallet, 
   Coins, 
@@ -149,7 +152,31 @@ const EnhancedWalletSection = () => {
 
   return (
     <div className="space-y-6">
-      {/* Enhanced Wallet Header */}
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-cyber-purple to-cyber-cyan bg-clip-text text-transparent">
+            INDO Wallet & Smart Contracts
+          </h2>
+          <p className="text-muted-foreground">Manage your tokens and blockchain interactions</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+            <Shield className="w-3 h-3 mr-1" />
+            Web3 Enabled
+          </Badge>
+        </div>
+      </div>
+
+      {/* Web3 Integration */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <WalletConnect />
+        <ContractEventListener />
+      </div>
+
+      <SmartContractActions />
+
+      {/* Enhanced Portfolio Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Enhanced Balance Card */}
         <Card className="lg:col-span-2 glass-card animated-border">
