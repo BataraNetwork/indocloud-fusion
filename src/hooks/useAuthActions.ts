@@ -11,35 +11,38 @@ export const useAuthActions = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  const showError = (title: string, description: string) => {
+    setError(description);
+    toast({
+      title,
+      description,
+      variant: "destructive",
+    });
+  };
+
+  const showSuccess = (title: string, description: string) => {
+    toast({
+      title,
+      description,
+    });
+  };
+
   const handleSignIn = async (email: string, password: string) => {
     setIsLoading(true);
     setError("");
 
     try {
-      const { error } = await signIn(email, password);
+      const { data, error } = await signIn(email, password);
       
       if (error) {
-        setError(error.message);
-        toast({
-          title: "Login Failed",
-          description: error.message,
-          variant: "destructive",
-        });
+        showError("Login Failed", error.message || JSON.stringify(error));
       } else {
-        toast({
-          title: "Welcome back!",
-          description: "Successfully logged in to IndoBlockCloud",
-        });
-        navigate('/');
+        showSuccess("Welcome back!", "Successfully logged in to IndoBlockCloud");
+        navigate("/");
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "An unexpected error occurred";
-      setError(message);
-      toast({
-        title: "Login Failed",
-        description: message,
-        variant: "destructive",
-      });
+      showError("Login Failed", message);
     } finally {
       setIsLoading(false);
     }
@@ -50,29 +53,21 @@ export const useAuthActions = () => {
     setError("");
 
     try {
-      const { error } = await signUp(email, password, displayName);
+      const { data, error } = await signUp(email, password, displayName);
       
       if (error) {
-        setError(error.message);
-        toast({
-          title: "Registration Failed",
-          description: error.message,
-          variant: "destructive",
-        });
+        showError("Registration Failed", error.message || JSON.stringify(error));
       } else {
-        toast({
-          title: "Account Created!",
-          description: "Please check your email to verify your account.",
-        });
+        showSuccess("Account Created!", "Please check your email to verify your account.");
+        
+        // optional: auto navigate if session exists
+        if (data?.session) {
+          navigate("/");
+        }
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "An unexpected error occurred";
-      setError(message);
-      toast({
-        title: "Registration Failed",
-        description: message,
-        variant: "destructive",
-      });
+      showError("Registration Failed", message);
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +75,7 @@ export const useAuthActions = () => {
 
   const handleResetPassword = async (email: string) => {
     if (!email) {
-      setError("Please enter your email address");
+      showError("Reset Failed", "Please enter your email address");
       return;
     }
 
@@ -91,26 +86,13 @@ export const useAuthActions = () => {
       const { error } = await resetPassword(email);
       
       if (error) {
-        setError(error.message);
-        toast({
-          title: "Reset Failed",
-          description: error.message,
-          variant: "destructive",
-        });
+        showError("Reset Failed", error.message || JSON.stringify(error));
       } else {
-        toast({
-          title: "Password Reset Sent",
-          description: "Check your email for reset instructions.",
-        });
+        showSuccess("Password Reset Sent", "Check your email for reset instructions.");
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "An unexpected error occurred";
-      setError(message);
-      toast({
-        title: "Reset Failed",
-        description: message,
-        variant: "destructive",
-      });
+      showError("Reset Failed", message);
     } finally {
       setIsLoading(false);
     }
