@@ -13,27 +13,37 @@ interface SignUpFormProps {
 }
 
 export default function SignUpForm({ onSubmit, isLoading, error }: SignUpFormProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    displayName: "",
+  });
   const [validationError, setValidationError] = useState("");
+
+  const updateField = (field: keyof typeof form, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const validateForm = () => {
+    if (form.password !== form.confirmPassword) {
+      return "Passwords don't match";
+    }
+    if (form.password.length < 6) {
+      return "Password must be at least 6 characters";
+    }
+    return "";
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const validationMsg = validateForm();
+    if (validationMsg) {
+      setValidationError(validationMsg);
+      return;
+    }
     setValidationError("");
-
-    if (password !== confirmPassword) {
-      setValidationError("Passwords don't match");
-      return;
-    }
-
-    if (password.length < 6) {
-      setValidationError("Password must be at least 6 characters");
-      return;
-    }
-
-    await onSubmit(email, password, displayName);
+    await onSubmit(form.email, form.password, form.displayName);
   };
 
   const displayError = validationError || error;
@@ -45,75 +55,64 @@ export default function SignUpForm({ onSubmit, isLoading, error }: SignUpFormPro
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="display-name">Display Name</Label>
-            <div className="relative">
-              <User className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-              <Input
-                id="display-name"
-                type="text"
-                placeholder="Your Name"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </div>
+          {/* Display Name */}
+          <FormField
+            id="display-name"
+            label="Display Name"
+            type="text"
+            icon={<User aria-hidden="true" />}
+            value={form.displayName}
+            onChange={(e) => updateField("displayName", e.target.value)}
+            placeholder="Your Name"
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="signup-email">Email</Label>
-            <div className="relative">
-              <Mail className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-              <Input
-                id="signup-email"
-                type="email"
-                placeholder="your.email@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
-                required
-              />
-            </div>
-          </div>
+          {/* Email */}
+          <FormField
+            id="signup-email"
+            label="Email"
+            type="email"
+            icon={<Mail aria-hidden="true" />}
+            value={form.email}
+            onChange={(e) => updateField("email", e.target.value)}
+            placeholder="your.email@example.com"
+            required
+            autoComplete="email"
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="signup-password">Password</Label>
-            <div className="relative">
-              <Lock className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-              <Input
-                id="signup-password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="pl-10"
-                required
-              />
-            </div>
-          </div>
+          {/* Password */}
+          <FormField
+            id="signup-password"
+            label="Password"
+            type="password"
+            icon={<Lock aria-hidden="true" />}
+            value={form.password}
+            onChange={(e) => updateField("password", e.target.value)}
+            placeholder="••••••••"
+            required
+            autoComplete="new-password"
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="confirm-password">Confirm Password</Label>
-            <div className="relative">
-              <Lock className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-              <Input
-                id="confirm-password"
-                type="password"
-                placeholder="••••••••"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="pl-10"
-                required
-              />
-            </div>
-          </div>
+          {/* Confirm Password */}
+          <FormField
+            id="confirm-password"
+            label="Confirm Password"
+            type="password"
+            icon={<Lock aria-hidden="true" />}
+            value={form.confirmPassword}
+            onChange={(e) => updateField("confirmPassword", e.target.value)}
+            placeholder="••••••••"
+            required
+            autoComplete="new-password"
+          />
 
+          {/* Error Alert */}
           {displayError && (
             <Alert variant="destructive">
               <AlertDescription>{displayError}</AlertDescription>
             </Alert>
           )}
 
+          {/* Submit Button */}
           <Button 
             type="submit" 
             className="w-full bg-gradient-to-r from-cyber-purple to-cyber-cyan hover:opacity-90"
@@ -133,6 +132,7 @@ export default function SignUpForm({ onSubmit, isLoading, error }: SignUpFormPro
           </Button>
         </form>
 
+        {/* Terms */}
         <div className="mt-4 p-3 rounded-lg bg-muted/20 border border-accent/30">
           <p className="text-xs text-muted-foreground text-center">
             By creating an account, you agree to our decentralized cloud terms and join the IndoBlockCloud network.
@@ -142,3 +142,24 @@ export default function SignUpForm({ onSubmit, isLoading, error }: SignUpFormPro
     </Card>
   );
 }
+
+/** 🔹 Reusable FormField Component */
+interface FormFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  id: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
+function FormField({ id, label, icon, className, ...props }: FormFieldProps) {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>{label}</Label>
+      <div className="relative">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+          {icon}
+        </span>
+        <Input id={id} className={`pl-10 ${className || ""}`} {...props} />
+      </div>
+    </div>
+  );
+          }
