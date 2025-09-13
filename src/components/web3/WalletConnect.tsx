@@ -39,6 +39,11 @@ export default function WalletConnect() {
           setBalance(bal);
         } catch (error) {
           console.error('Failed to fetch balance:', error);
+          toast({
+            title: "Error",
+            description: "Failed to fetch token balance",
+            variant: "destructive",
+          });
         } finally {
           setLoadingBalance(false);
         }
@@ -46,21 +51,52 @@ export default function WalletConnect() {
     };
 
     fetchBalance();
-  }, [isConnected, account, getBalance]);
+  }, [isConnected, account, getBalance, toast]);
 
   const copyAddress = () => {
     if (account) {
-      navigator.clipboard.writeText(account);
-      toast({
-        title: "Address Copied",
-        description: "Wallet address copied to clipboard",
-      });
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(account);
+        } else {
+          // fallback
+          const textArea = document.createElement("textarea");
+          textArea.value = account;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand("copy");
+          textArea.remove();
+        }
+        toast({
+          title: "Address Copied",
+          description: "Wallet address copied to clipboard",
+        });
+      } catch {
+        toast({
+          title: "Error",
+          description: "Failed to copy address",
+          variant: "destructive",
+        });
+      }
     }
   };
 
   const openInExplorer = () => {
     if (account && currentNetwork) {
-      window.open(`${currentNetwork.blockExplorer}/address/${account}`, '_blank');
+      window.open(`${currentNetwork.blockExplorer}/address/${account}`, '_blank', "noopener,noreferrer");
+    }
+  };
+
+  const handleSwitchNetwork = async (targetChainId: number) => {
+    try {
+      await switchNetwork(targetChainId);
+    } catch (err) {
+      console.error("Switch network error:", err);
+      toast({
+        title: "Network Error",
+        description: "Failed to switch network. Please try manually in MetaMask.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -165,7 +201,9 @@ export default function WalletConnect() {
             <span className="text-sm font-medium">INDO Balance</span>
             <div className="flex items-center gap-2">
               {loadingBalance ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <span className="text-muted-foreground text-sm flex items-center gap-1">
+                  <Loader2 className="w-4 h-4 animate-spin" /> Fetching...
+                </span>
               ) : (
                 <span className="font-mono text-sm">
                   {parseFloat(balance).toFixed(4)} INDO
@@ -186,7 +224,7 @@ export default function WalletConnect() {
                 key={network.chainId}
                 variant={chainId === network.chainId ? "default" : "outline"}
                 size="sm"
-                onClick={() => switchNetwork(network.chainId)}
+                onClick={() => handleSwitchNetwork(network.chainId)}
                 className={chainId === network.chainId ? "bg-cyber-purple" : ""}
               >
                 {network.name}
