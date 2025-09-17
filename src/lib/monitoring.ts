@@ -3,8 +3,8 @@ import * as Sentry from "@sentry/react";
 // Initialize Sentry for error tracking
 export const initializeMonitoring = () => {
   Sentry.init({
-    dsn: process.env.VITE_SENTRY_DSN || "",
-    environment: process.env.NODE_ENV || "development",
+    dsn: import.meta.env.VITE_SENTRY_DSN || "",
+    environment: import.meta.env.MODE || "development",
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration({
@@ -12,7 +12,7 @@ export const initializeMonitoring = () => {
         blockAllMedia: false,
       }),
     ],
-    tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+    tracesSampleRate: import.meta.env.MODE === "production" ? 0.1 : 1.0,
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
   });
