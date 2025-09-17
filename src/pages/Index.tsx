@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Sidebar from "@/components/Sidebar";
 import Dashboard from "@/components/Dashboard";
 import NetworkStats from "@/components/NetworkStats";
@@ -15,6 +16,7 @@ import { cn } from "@/lib/utils";
 const Index = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
   const { user, loading } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,9 +28,9 @@ const Index = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-cyber-purple" />
-          <p className="text-muted-foreground">Loading IndoBlockCloud...</p>
+        <div className="text-center" role="status" aria-live="polite">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-cyber-purple" aria-hidden="true" />
+          <p className="text-muted-foreground">{t('loading')}</p>
         </div>
       </div>
     );
@@ -38,14 +40,15 @@ const Index = () => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <Lock className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+          <Lock className="w-16 h-16 mx-auto mb-4 text-muted-foreground" aria-hidden="true" />
           <h2 className="text-2xl font-bold mb-2">Access Required</h2>
           <p className="text-muted-foreground mb-6">Please sign in to access IndoBlockCloud</p>
           <Button 
             onClick={() => navigate('/auth')}
             className="bg-gradient-to-r from-cyber-purple to-cyber-cyan hover:opacity-90"
+            aria-label="Navigate to sign in page"
           >
-            Sign In
+            {t('login')}
           </Button>
         </div>
       </div>
@@ -66,20 +69,20 @@ const Index = () => {
         return <ComputeSection />;
       case "tokens":
         return (
-          <div className="flex items-center justify-center h-64">
-            <p className="text-muted-foreground">INDO Token management coming soon...</p>
+          <div className="flex items-center justify-center h-64" role="status">
+            <p className="text-muted-foreground">{t('indoTokens')} management coming soon...</p>
           </div>
         );
       case "security":
         return (
-          <div className="flex items-center justify-center h-64">
+          <div className="flex items-center justify-center h-64" role="status">
             <p className="text-muted-foreground">ZK Security features coming soon...</p>
           </div>
         );
       case "settings":
         return (
-          <div className="flex items-center justify-center h-64">
-            <p className="text-muted-foreground">Settings panel coming soon...</p>
+          <div className="flex items-center justify-center h-64" role="status">
+            <p className="text-muted-foreground">{t('settings')} panel coming soon...</p>
           </div>
         );
       default:
@@ -94,11 +97,19 @@ const Index = () => {
         onSectionChange={setActiveSection}
       />
       
-      <main className={cn(
-        "transition-all duration-300 pl-64 p-6",
-        "ml-0 pl-64" // Always account for sidebar width
-      )}>
-        {renderContent()}
+      <main 
+        id="main-content"
+        className={cn(
+          "transition-all duration-300 min-h-screen",
+          "ml-0 pl-64 lg:pl-64 md:pl-16 sm:pl-16", // Responsive sidebar spacing
+          "p-4 sm:p-6" // Responsive padding
+        )}
+        role="main"
+        aria-label="Main application content"
+      >
+        <div className="max-w-7xl mx-auto">
+          {renderContent()}
+        </div>
       </main>
     </div>
   );

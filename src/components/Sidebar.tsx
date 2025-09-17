@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { LanguageSelector } from "@/components/ui/language-selector";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 import { 
   Cloud, 
   Database, 
@@ -26,34 +29,35 @@ interface SidebarProps {
   onSectionChange: (section: string) => void;
 }
 
-const menuItems = [
-  { id: "dashboard", label: "Dashboard", icon: BarChart3 },
-  { id: "storage", label: "Cloud Storage", icon: Database },
-  { id: "compute", label: "Compute Rental", icon: Cpu },
-  { id: "marketplace", label: "Node Marketplace", icon: Network },
-  { id: "wallet", label: "Wallet & Balance", icon: Wallet },
-  { id: "tokens", label: "INDO Tokens", icon: Coins },
-  { id: "security", label: "ZK Security", icon: Shield },
-  { id: "settings", label: "Settings", icon: Settings },
-];
-
 export default function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { user, signOut } = useAuth();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const menuItems = [
+    { id: "dashboard", label: t("dashboard"), icon: BarChart3 },
+    { id: "storage", label: t("storage"), icon: Database },
+    { id: "compute", label: t("compute"), icon: Cpu },
+    { id: "marketplace", label: t("marketplace"), icon: Network },
+    { id: "wallet", label: t("wallet"), icon: Wallet },
+    { id: "tokens", label: t("indoTokens"), icon: Coins },
+    { id: "security", label: "ZK Security", icon: Shield },
+    { id: "settings", label: t("settings"), icon: Settings },
+  ];
 
   const handleLogout = async () => {
     const { error } = await signOut();
     if (error) {
       toast({
-        title: "Logout Failed",
+        title: t("error"),
         description: error.message,
         variant: "destructive",
       });
     } else {
       toast({
-        title: "Logged Out",
+        title: t("success"),
         description: "Successfully logged out from IndoBlockCloud",
       });
       navigate('/auth');
@@ -75,18 +79,28 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
             </span>
           </div>
         )}
-        <Button 
-          variant="ghost" 
-          size="icon"
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="hover:bg-accent/20"
-        >
-          {isCollapsed ? <Menu className="w-4 h-4" /> : <X className="w-4 h-4" />}
-        </Button>
+        <div className="flex items-center gap-2">
+          {!isCollapsed && (
+            <>
+              <ThemeToggle />
+              <LanguageSelector />
+            </>
+          )}
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="hover:bg-accent/20"
+            aria-label={t('menuButton')}
+            aria-expanded={!isCollapsed}
+          >
+            {isCollapsed ? <Menu className="w-4 h-4" /> : <X className="w-4 h-4" />}
+          </Button>
+        </div>
       </div>
 
       {/* Navigation */}
-      <nav className="p-4 space-y-2">
+      <nav className="p-4 space-y-2" role="navigation" aria-label="Main navigation">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.id;
@@ -102,8 +116,10 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                 isCollapsed && "px-2"
               )}
               onClick={() => onSectionChange(item.id)}
+              aria-label={item.label}
+              aria-current={isActive ? "page" : undefined}
             >
-              <Icon className="w-5 h-5 flex-shrink-0" />
+              <Icon className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
               {!isCollapsed && (
                 <span className="truncate">{item.label}</span>
               )}
@@ -133,27 +149,28 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
               size="sm"
               onClick={handleLogout}
               className="w-full justify-start gap-2 h-8"
+              aria-label={t('logout')}
             >
-              <LogOut className="w-3 h-3" />
-              Logout
+              <LogOut className="w-3 h-3" aria-hidden="true" />
+              {t('logout')}
             </Button>
           </div>
           
           {/* Network Status */}
           <div className="bg-gradient-to-r from-cyber-purple/20 to-cyber-cyan/20 rounded-lg p-3 border border-accent/30">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-muted-foreground">Network Status</span>
+              <span className="text-xs text-muted-foreground">{t('networkStats')}</span>
               <Badge variant="secondary" className="bg-success/20 text-success border-success/30 text-xs">
                 Online
               </Badge>
             </div>
             <div className="space-y-1 text-xs">
               <div className="flex justify-between">
-                <span>Nodes Connected:</span>
+                <span>{t('totalNodes')}:</span>
                 <span className="text-cyber-cyan">2,847</span>
               </div>
               <div className="flex justify-between">
-                <span>INDO Balance:</span>
+                <span>{t('balance')}:</span>
                 <span className="text-cyber-purple">1,250.45</span>
               </div>
             </div>
