@@ -1,0 +1,72 @@
+groups:
+- name: indoblockcloud.rules
+  rules:
+  # High error rate alert
+  - alert: HighErrorRate
+    expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High error rate detected"
+      description: "Error rate is {{ $value }} errors per second for {{ $labels.instance }}"
+
+  # High response time alert
+  - alert: HighResponseTime
+    expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 0.5
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High response time detected"
+      description: "95th percentile response time is {{ $value }}s for {{ $labels.instance }}"
+
+  # Application down alert
+  - alert: ApplicationDown
+    expr: up{job="indoblockcloud"} == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "IndoBlockCloud application is down"
+      description: "IndoBlockCloud application has been down for more than 1 minute"
+
+  # High memory usage alert
+  - alert: HighMemoryUsage
+    expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 0.85
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High memory usage detected"
+      description: "Memory usage is above 85% for {{ $labels.instance }}"
+
+  # High CPU usage alert
+  - alert: HighCPUUsage
+    expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High CPU usage detected"
+      description: "CPU usage is above 80% for {{ $labels.instance }}"
+
+  # Disk space alert
+  - alert: LowDiskSpace
+    expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) * 100 < 10
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Low disk space detected"
+      description: "Disk space is below 10% for {{ $labels.instance }} on {{ $labels.mountpoint }}"
+
+  # Kubernetes pod restart alert
+  - alert: PodRestartingTooOften
+    expr: rate(kube_pod_container_status_restarts_total[1h]) > 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Pod restarting too often"
+      description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} is restarting too frequently"
