@@ -35,7 +35,7 @@ const transactions = [
     id: 1,
     type: "earned",
     category: "storage_reward",
-    amount: "+127.8 INDO",
+    amount: "+127.8 VLR",
     usd: "+$291.34",
     description: "Node Storage Rewards",
     timestamp: "2 hours ago",
@@ -49,7 +49,7 @@ const transactions = [
     id: 2,
     type: "spent",
     category: "compute_rental",
-    amount: "-45.2 INDO",
+    amount: "-45.2 VLR",
     usd: "-$103.16", 
     description: "GPU Compute Rental Payment",
     timestamp: "5 hours ago",
@@ -63,7 +63,7 @@ const transactions = [
     id: 3,
     type: "earned",
     category: "file_storage",
-    amount: "+89.5 INDO",
+    amount: "+89.5 VLR",
     usd: "+$204.27",
     description: "IPFS File Storage Revenue", 
     timestamp: "1 day ago",
@@ -77,7 +77,7 @@ const transactions = [
     id: 4,
     type: "staking",
     category: "stake_reward",
-    amount: "+12.3 INDO",
+    amount: "+12.3 VLR",
     usd: "+$28.05",
     description: "Staking Rewards",
     timestamp: "2 days ago",
@@ -156,7 +156,7 @@ const EnhancedWalletSection = () => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-cyber-purple to-cyber-cyan bg-clip-text text-transparent">
-            INDO Wallet & Smart Contracts
+            Velora Wallet & Smart Contracts
           </h2>
           <p className="text-muted-foreground">Manage your tokens and blockchain interactions</p>
         </div>
@@ -185,7 +185,7 @@ const EnhancedWalletSection = () => {
               <div>
                 <p className="text-sm text-muted-foreground mb-2">Total Balance</p>
                 <p className="text-5xl font-bold gradient-cosmic mb-2">
-                  1,250.45 INDO
+                  1,250.45 VLR
                 </p>
                 <p className="text-xl text-muted-foreground mb-4">≈ $2,847.32 USD</p>
                 <div className="flex items-center gap-4">
@@ -220,7 +220,7 @@ const EnhancedWalletSection = () => {
               </Button>
               <Button variant="outline" className="border-cyber-cyan/50 text-cyber-cyan hover:bg-cyber-cyan/10">
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Buy INDO
+                Buy VLR
               </Button>
               <Button variant="outline" className="border-cyber-purple/50 text-cyber-purple hover:bg-cyber-purple/10">
                 <QrCode className="w-4 h-4 mr-2" />
@@ -291,7 +291,7 @@ const EnhancedWalletSection = () => {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Monthly Earnings</p>
-                <p className="text-xl font-bold text-cyber-purple">847.2 INDO</p>
+                <p className="text-xl font-bold text-cyber-purple">847.2 VLR</p>
                 <div className="flex items-center gap-1 text-cyber-green text-xs">
                   <TrendingUp className="w-3 h-3" />
                   +23.4% vs last month
@@ -309,7 +309,7 @@ const EnhancedWalletSection = () => {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Staked Amount</p>
-                <p className="text-xl font-bold text-cyber-cyan">500.0 INDO</p>
+                <p className="text-xl font-bold text-cyber-cyan">500.0 VLR</p>
                 <p className="text-xs text-cyber-cyan">18% APY • 30 days lock</p>
               </div>
             </div>
@@ -324,7 +324,7 @@ const EnhancedWalletSection = () => {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Rewards Pending</p>
-                <p className="text-xl font-bold text-cyber-green">47.3 INDO</p>
+                <p className="text-xl font-bold text-cyber-green">47.3 VLR</p>
                 <p className="text-xs text-cyber-green">Auto-claim in 2h 15m</p>
               </div>
             </div>
@@ -339,7 +339,7 @@ const EnhancedWalletSection = () => {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Monthly Spent</p>
-                <p className="text-xl font-bold text-cyber-pink">127.4 INDO</p>
+                <p className="text-xl font-bold text-cyber-pink">127.4 VLR</p>
                 <div className="flex items-center gap-1 text-cyber-green text-xs">
                   <TrendingDown className="w-3 h-3" />
                   -8.7% vs last month
@@ -431,7 +431,7 @@ const EnhancedWalletSection = () => {
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div>
                       <p className="text-sm text-muted-foreground">Staked Amount</p>
-                      <p className="text-2xl font-bold text-cyber-cyan">500.0 INDO</p>
+                      <p className="text-2xl font-bold text-cyber-cyan">500.0 VLR</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Current APY</p>
@@ -439,7 +439,7 @@ const EnhancedWalletSection = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Earned Rewards</p>
-                      <p className="text-2xl font-bold text-cyber-purple">47.3 INDO</p>
+                      <p className="text-2xl font-bold text-cyber-purple">47.3 VLR</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Unlock Date</p>
@@ -491,7 +491,7 @@ const EnhancedWalletSection = () => {
                       <div className="flex justify-between items-start mb-3">
                         <div>
                           <h4 className="font-semibold">{option.duration} Lock</h4>
-                          <p className="text-sm text-muted-foreground">Min: {option.minAmount} INDO</p>
+                          <p className="text-sm text-muted-foreground">Min: {option.minAmount} VLR</p>
                         </div>
                         <div className="text-right">
                           <div className={`text-2xl font-bold text-${option.color}`}>{option.apy}</div>
@@ -509,7 +509,7 @@ const EnhancedWalletSection = () => {
                   <h4 className="font-semibold mb-3">Stake New Amount</h4>
                   <div className="flex gap-3">
                     <Input 
-                      placeholder="Enter INDO amount..." 
+                      placeholder="Enter VLR amount..." 
                       className="flex-1"
                     />
                     <Button className="bg-gradient-to-r from-cyber-purple to-cyber-cyan hover:opacity-90">
@@ -529,7 +529,7 @@ const EnhancedWalletSection = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Send className="w-5 h-5 text-cyber-purple" />
-                  Send INDO
+                  Send VLR
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -551,11 +551,11 @@ const EnhancedWalletSection = () => {
                       className="pr-16"
                     />
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground">
-                      INDO
+                      VLR
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Balance: 1,250.45 INDO
+                    Balance: 1,250.45 VLR
                   </p>
                 </div>
                 <div className="p-3 rounded-lg bg-muted/20">
@@ -565,7 +565,7 @@ const EnhancedWalletSection = () => {
                   </div>
                   <div className="flex justify-between text-sm font-medium">
                     <span>Total:</span>
-                    <span>{sendAmount || '0'} INDO + 0.005 MATIC</span>
+                    <span>{sendAmount || '0'} VLR + 0.005 MATIC</span>
                   </div>
                 </div>
                 <Button className="w-full bg-gradient-to-r from-cyber-purple to-cyber-pink hover:opacity-90">
@@ -579,7 +579,7 @@ const EnhancedWalletSection = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <ArrowDownLeft className="w-5 h-5 text-cyber-green" />
-                  Receive INDO
+                  Receive VLR
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -604,7 +604,7 @@ const EnhancedWalletSection = () => {
                 <div className="space-y-2 text-xs text-muted-foreground">
                   <p className="flex items-center gap-2">
                     <Shield className="w-3 h-3" />
-                    Only send INDO tokens to this address
+                    Only send VLR tokens to this address
                   </p>
                   <p className="flex items-center gap-2">
                     <Clock className="w-3 h-3" />
@@ -640,21 +640,21 @@ const EnhancedWalletSection = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-sm">Storage Rewards</span>
-                    <span className="font-medium text-cyber-green">427.3 INDO (50.4%)</span>
+                    <span className="font-medium text-cyber-green">427.3 VLR (50.4%)</span>
                   </div>
                   <Progress value={50.4} className="h-2" />
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-sm">Staking Rewards</span>
-                    <span className="font-medium text-cyber-cyan">298.7 INDO (35.3%)</span>
+                    <span className="font-medium text-cyber-cyan">298.7 VLR (35.3%)</span>
                   </div>
                   <Progress value={35.3} className="h-2" />
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-sm">File Storage</span>
-                    <span className="font-medium text-cyber-purple">121.2 INDO (14.3%)</span>
+                    <span className="font-medium text-cyber-purple">121.2 VLR (14.3%)</span>
                   </div>
                   <Progress value={14.3} className="h-2" />
                 </div>

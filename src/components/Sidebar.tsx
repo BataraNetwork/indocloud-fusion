@@ -42,7 +42,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     { id: "compute", label: t("compute"), icon: Cpu },
     { id: "marketplace", label: t("marketplace"), icon: Network },
     { id: "wallet", label: t("wallet"), icon: Wallet },
-    { id: "tokens", label: t("indoTokens"), icon: Coins },
+    { id: "tokens", label: t("veloraTokens"), icon: Coins },
     { id: "security", label: "ZK Security", icon: Shield },
     { id: "settings", label: t("settings"), icon: Settings },
   ];

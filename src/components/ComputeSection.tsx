@@ -28,7 +28,7 @@ const activeJobs = [
     node: "GPU-Beast-SG",
     progress: 67,
     timeLeft: "2h 14m",
-    cost: "12.4 INDO",
+    cost: "12.4 VLR",
     status: "running"
   },
   {
@@ -38,7 +38,7 @@ const activeJobs = [
     node: "Render-Farm-ID",
     progress: 23,
     timeLeft: "5h 42m", 
-    cost: "8.7 INDO",
+    cost: "8.7 VLR",
     status: "running"
   }
 ];
@@ -178,7 +178,7 @@ export default function ComputeSection() {
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Max Budget (INDO)</label>
+                    <label className="text-sm font-medium mb-2 block">Max Budget (VLR)</label>
                     <Input type="number" placeholder="50.0" />
                   </div>
                 </div>
@@ -207,7 +207,7 @@ export default function ComputeSection() {
               {/* Submit Actions */}
               <div className="flex justify-between items-center pt-4 border-t border-border">
                 <div className="text-sm text-muted-foreground">
-                  Estimated cost: <span className="text-cyber-purple font-medium">~12.5 INDO</span>
+                  Estimated cost: <span className="text-cyber-purple font-medium">~12.5 VLR</span>
                 </div>
                 <div className="flex gap-3">
                   <Button variant="outline">Save Draft</Button>

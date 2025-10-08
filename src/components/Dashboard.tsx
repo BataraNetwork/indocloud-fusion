@@ -100,7 +100,7 @@ export default function Dashboard() {
                 <Coins className="w-6 h-6 text-success" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">INDO Balance</p>
+                <p className="text-sm text-muted-foreground">VLR Balance</p>
                 <p className="text-2xl font-bold">{indoBalance.toFixed(2)}</p>
                 <p className="text-xs text-success">${(indoBalance * 2.28).toFixed(2)} USD</p>
               </div>
@@ -147,7 +147,7 @@ export default function Dashboard() {
               <Server className="w-4 h-4 text-success" />
               <div className="flex-1">
                 <p className="text-sm font-medium">Compute job completed</p>
-                <p className="text-xs text-muted-foreground">ML Model Training • 2.4 INDO earned • 1 hour ago</p>
+                <p className="text-xs text-muted-foreground">ML Model Training • 2.4 VLR earned • 1 hour ago</p>
               </div>
             </div>
             
@@ -155,7 +155,7 @@ export default function Dashboard() {
               <Coins className="w-4 h-4 text-cyber-purple" />
               <div className="flex-1">
                 <p className="text-sm font-medium">Node reward received</p>
-                <p className="text-xs text-muted-foreground">Storage provision • 15.7 INDO • 3 hours ago</p>
+                <p className="text-xs text-muted-foreground">Storage provision • 15.7 VLR • 3 hours ago</p>
               </div>
             </div>
           </CardContent>

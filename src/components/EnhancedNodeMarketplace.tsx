@@ -92,7 +92,7 @@ const storageNodes: StorageNode[] = [
     location: "Jakarta, Indonesia",
     storage: "50 TB",
     available: "47.2 TB",
-    price: "0.002 INDO/GB/month",
+    price: "0.002 VLR/GB/month",
     uptime: 99.94,
     rating: 4.9,
     reviews: 1247,
@@ -102,7 +102,7 @@ const storageNodes: StorageNode[] = [
     verified: true,
     features: ["SSD Storage", "Redundancy", "24/7 Support"],
     lastOnline: "Active",
-    totalEarned: "12,847 INDO",
+    totalEarned: "12,847 VLR",
     peakLoad: "89%",
   },
   {
@@ -112,7 +112,7 @@ const storageNodes: StorageNode[] = [
     location: "Singapore",
     storage: "100 TB",
     available: "92.8 TB",
-    price: "0.003 INDO/GB/month",
+    price: "0.003 VLR/GB/month",
     uptime: 99.97,
     rating: 4.8,
     reviews: 2891,
@@ -122,7 +122,7 @@ const storageNodes: StorageNode[] = [
     verified: true,
     features: ["NVMe SSD", "Geo-Redundancy", "Enterprise"],
     lastOnline: "Active",
-    totalEarned: "28,394 INDO",
+    totalEarned: "28,394 VLR",
     peakLoad: "76%",
   },
   {
@@ -132,7 +132,7 @@ const storageNodes: StorageNode[] = [
     location: "Mumbai, India",
     storage: "25 TB",
     available: "21.1 TB",
-    price: "0.0015 INDO/GB/month",
+    price: "0.0015 VLR/GB/month",
     uptime: 99.89,
     rating: 4.7,
     reviews: 892,
@@ -142,7 +142,7 @@ const storageNodes: StorageNode[] = [
     verified: true,
     features: ["HDD Storage", "Basic Support"],
     lastOnline: "Active",
-    totalEarned: "7,291 INDO",
+    totalEarned: "7,291 VLR",
     peakLoad: "93%",
   },
 ];
@@ -154,7 +154,7 @@ const computeNodes: ComputeNode[] = [
     provider: "AI-Compute-Asia",
     location: "Singapore",
     specs: "8x RTX 4090, 128GB RAM, 2TB NVMe",
-    price: "2.5 INDO/hour",
+    price: "2.5 VLR/hour",
     uptime: 99.91,
     rating: 4.9,
     reviews: 1842,
@@ -164,7 +164,7 @@ const computeNodes: ComputeNode[] = [
     verified: true,
     features: ["CUDA 12.0", "Docker Support", "Jupyter"],
     lastOnline: "Active",
-    totalEarned: "47,283 INDO",
+    totalEarned: "47,283 VLR",
     peakLoad: "87%",
   },
   {
@@ -173,7 +173,7 @@ const computeNodes: ComputeNode[] = [
     provider: "Indonesia-GPU-Farm",
     location: "Surabaya, Indonesia",
     specs: "16x A100 80GB, 512GB RAM, 4TB NVMe",
-    price: "4.2 INDO/hour",
+    price: "4.2 VLR/hour",
     uptime: 99.95,
     rating: 5.0,
     reviews: 3247,
@@ -183,7 +183,7 @@ const computeNodes: ComputeNode[] = [
     verified: true,
     features: ["Multi-GPU", "InfiniBand", "MLOps"],
     lastOnline: "Active",
-    totalEarned: "89,472 INDO",
+    totalEarned: "89,472 VLR",
     peakLoad: "92%",
   },
   {
@@ -192,7 +192,7 @@ const computeNodes: ComputeNode[] = [
     provider: "Japan-AI-Network",
     location: "Tokyo, Japan",
     specs: "4x H100, 256GB RAM, 1TB NVMe",
-    price: "6.8 INDO/hour",
+    price: "6.8 VLR/hour",
     uptime: 99.98,
     rating: 4.9,
     reviews: 1394,
@@ -202,7 +202,7 @@ const computeNodes: ComputeNode[] = [
     verified: true,
     features: ["Latest H100", "FP8 Training", "Scale-out"],
     lastOnline: "Active",
-    totalEarned: "124,837 INDO",
+    totalEarned: "124,837 VLR",
     peakLoad: "78%",
   },
 ];
@@ -408,9 +408,9 @@ const EnhancedNodeMarketplace = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Prices</SelectItem>
-                <SelectItem value="low">&lt; 1 INDO</SelectItem>
-                <SelectItem value="medium">1-5 INDO</SelectItem>
-                <SelectItem value="high">&gt; 5 INDO</SelectItem>
+                <SelectItem value="low">&lt; 1 VLR</SelectItem>
+                <SelectItem value="medium">1-5 VLR</SelectItem>
+                <SelectItem value="high">&gt; 5 VLR</SelectItem>
               </SelectContent>
             </Select>
             <Select

@@ -51,7 +51,7 @@ const resources = {
       
       // Wallet
       balance: 'Balance',
-      indoTokens: 'INDO Tokens',
+      veloraTokens: 'VLR Tokens',
       transactions: 'Transactions',
       send: 'Send',
       receive: 'Receive',
@@ -139,7 +139,7 @@ const resources = {
       
       // Wallet
       balance: 'Saldo',
-      indoTokens: 'Token INDO',
+      veloraTokens: 'Token VLR',
       transactions: 'Transaksi',
       send: 'Kirim',
       receive: 'Terima',

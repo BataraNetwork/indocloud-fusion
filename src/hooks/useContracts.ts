@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3 } from './useWeb3';
 import {
-  INDO_TOKEN_ABI,
+  VELORA_TOKEN_ABI,
   NODE_MARKETPLACE_ABI,
   STORAGE_ESCROW_ABI,
   STAKING_CONTRACT_ABI,
@@ -24,8 +24,8 @@ export const useContracts = () => {
 
     return {
       indoToken: new ethers.Contract(
-        CONTRACT_ADDRESSES.INDO_TOKEN,
-        INDO_TOKEN_ABI,
+        CONTRACT_ADDRESSES.VELORA_TOKEN,
+        VELORA_TOKEN_ABI,
         signer
       ),
       nodeMarketplace: new ethers.Contract(

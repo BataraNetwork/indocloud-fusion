@@ -20,7 +20,7 @@ const transactions = [
   {
     id: 1,
     type: "earned",
-    amount: "+127.8 INDO",
+    amount: "+127.8 VLR",
     usd: "+$291.34",
     description: "Node Storage Rewards",
     timestamp: "2 hours ago",
@@ -29,7 +29,7 @@ const transactions = [
   {
     id: 2,
     type: "spent",
-    amount: "-45.2 INDO",
+    amount: "-45.2 VLR",
     usd: "-$103.16", 
     description: "Compute Rental Payment",
     timestamp: "5 hours ago",
@@ -38,7 +38,7 @@ const transactions = [
   {
     id: 3,
     type: "earned",
-    amount: "+89.5 INDO",
+    amount: "+89.5 VLR",
     usd: "+$204.27",
     description: "File Storage Revenue", 
     timestamp: "1 day ago",
@@ -58,7 +58,7 @@ export default function WalletSection() {
               <div>
                 <p className="text-sm text-muted-foreground mb-2">Total Balance</p>
                 <p className="text-4xl font-bold bg-gradient-to-r from-cyber-purple to-cyber-cyan bg-clip-text text-transparent">
-                  1,250.45 INDO
+                  1,250.45 VLR
                 </p>
                 <p className="text-lg text-muted-foreground">≈ $2,847.32 USD</p>
               </div>
@@ -79,7 +79,7 @@ export default function WalletSection() {
               </Button>
               <Button variant="outline" className="border-accent/50">
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Buy INDO
+                Buy VLR
               </Button>
             </div>
           </CardContent>
@@ -133,7 +133,7 @@ export default function WalletSection() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Monthly Earnings</p>
-                <p className="text-xl font-bold">847.2 INDO</p>
+                <p className="text-xl font-bold">847.2 VLR</p>
                 <div className="flex items-center gap-1 text-success text-xs">
                   <TrendingUp className="w-3 h-3" />
                   +23.4%
@@ -151,7 +151,7 @@ export default function WalletSection() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Staked Amount</p>
-                <p className="text-xl font-bold">500.0 INDO</p>
+                <p className="text-xl font-bold">500.0 VLR</p>
                 <p className="text-xs text-cyber-cyan">12% APY</p>
               </div>
             </div>
@@ -166,7 +166,7 @@ export default function WalletSection() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Rewards Pending</p>
-                <p className="text-xl font-bold">47.3 INDO</p>
+                <p className="text-xl font-bold">47.3 VLR</p>
                 <p className="text-xs text-success">Ready to claim</p>
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function WalletSection() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Monthly Spent</p>
-                <p className="text-xl font-bold">127.4 INDO</p>
+                <p className="text-xl font-bold">127.4 VLR</p>
                 <div className="flex items-center gap-1 text-cyber-pink text-xs">
                   <TrendingDown className="w-3 h-3" />
                   -8.7%
@@ -248,7 +248,7 @@ export default function WalletSection() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="w-5 h-5 text-cyber-purple" />
-              INDO Staking
+              Velora Staking
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -256,21 +256,21 @@ export default function WalletSection() {
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <p className="text-sm text-muted-foreground">Currently Staked</p>
-                  <p className="text-2xl font-bold">500.0 INDO</p>
+                  <p className="text-2xl font-bold">500.0 VLR</p>
                 </div>
                 <Badge variant="secondary" className="bg-success/20 text-success">
                   12% APY
                 </Badge>
               </div>
               <p className="text-sm text-muted-foreground">
-                Earn rewards by securing the network. Minimum stake: 100 INDO
+                Earn rewards by securing the network. Minimum stake: 100 VLR
               </p>
             </div>
 
             <div className="space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Rewards Earned:</span>
-                <span className="font-medium text-success">47.3 INDO</span>
+                <span className="font-medium text-success">47.3 VLR</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Unbonding Period:</span>
@@ -278,7 +278,7 @@ export default function WalletSection() {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Next Reward:</span>
-                <span className="font-medium text-cyber-cyan">2.1 INDO (6h)</span>
+                <span className="font-medium text-cyber-cyan">2.1 VLR (6h)</span>
               </div>
             </div>
 
