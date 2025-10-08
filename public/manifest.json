@@ -1,6 +1,6 @@
 {
-  "name": "IndoBlockCloud - Decentralized Cloud Platform",
-  "short_name": "IndoBlockCloud",
+  "name": "VeloraCloud - Decentralized Cloud Platform",
+  "short_name": "VeloraCloud",
   "description": "Revolutionary decentralized cloud platform powered by blockchain technology",
   "start_url": "/",
   "display": "standalone",
@@ -64,7 +64,7 @@
     {
       "name": "Dashboard",
       "short_name": "Dashboard",
-      "description": "Access your IndoBlockCloud dashboard",
+      "description": "Access your VeloraCloud dashboard",
       "url": "/dashboard",
       "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96" }]
     },

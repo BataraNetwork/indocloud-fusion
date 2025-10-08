@@ -41,7 +41,7 @@ export default function Dashboard() {
         <div className="relative p-8">
           <div className="max-w-2xl">
             <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-cyber-purple to-cyber-cyan bg-clip-text text-transparent">
-              Welcome to IndoBlockCloud
+              Welcome to VeloraCloud
             </h1>
             <p className="text-muted-foreground text-lg mb-6">
               Your decentralized cloud infrastructure powered by blockchain technology. 

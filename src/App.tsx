@@ -15,7 +15,7 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="system" storageKey="indoblockcloud-theme">
+    <ThemeProvider defaultTheme="system" storageKey="veloracloud-theme">
       <TooltipProvider>
         <SkipLink />
         <Toaster />

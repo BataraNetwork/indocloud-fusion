@@ -58,7 +58,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     } else {
       toast({
         title: t("success"),
-        description: "Successfully logged out from IndoBlockCloud",
+        description: "Successfully logged out from VeloraCloud",
       });
       navigate('/auth');
     }
@@ -75,7 +75,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
           <div className="flex items-center gap-2">
             <Cloud className="w-8 h-8 text-cyber-purple" />
             <span className="font-bold text-lg bg-gradient-to-r from-cyber-purple to-cyber-cyan bg-clip-text text-transparent">
-              IndoBlockCloud
+              VeloraCloud
             </span>
           </div>
         )}
