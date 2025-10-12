@@ -1,6 +1,6 @@
 {
-  "name": "VeloraCloud - Decentralized Cloud Platform",
-  "short_name": "VeloraCloud",
+  "name": "BataraCloud - Decentralized Cloud Platform",
+  "short_name": "BataraCloud",
   "description": "Revolutionary decentralized cloud platform powered by blockchain technology",
   "start_url": "/",
   "display": "standalone",
@@ -64,7 +64,7 @@
     {
       "name": "Dashboard",
       "short_name": "Dashboard",
-      "description": "Access your VeloraCloud dashboard",
+      "description": "Access your BataraCloud dashboard",
       "url": "/dashboard",
       "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96" }]
     },

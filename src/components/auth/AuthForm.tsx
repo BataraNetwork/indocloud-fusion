@@ -216,7 +216,7 @@ export default function AuthForm({
         {mode === "signup" && (
           <div className="mt-4 p-3 rounded-lg bg-muted/20 border border-accent/30">
             <p className="text-xs text-muted-foreground text-center">
-              By creating an account, you agree to our decentralized cloud terms and join the VeloraCloud network.
+              By creating an account, you agree to our decentralized cloud terms and join the BataraCloud network.
             </p>
           </div>
         )}

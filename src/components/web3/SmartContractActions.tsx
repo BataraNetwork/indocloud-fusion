@@ -109,7 +109,7 @@ export default function SmartContractActions() {
           Smart Contract Actions
         </CardTitle>
         <CardDescription>
-          Interact with VeloraCloud smart contracts
+          Interact with BataraCloud smart contracts
         </CardDescription>
       </CardHeader>
 
@@ -126,7 +126,7 @@ export default function SmartContractActions() {
             <div className="space-y-4">
               <h4 className="text-sm font-medium flex items-center gap-2">
                 <Send className="w-4 h-4" />
-                Transfer Velora Tokens
+                Transfer Batara Tokens
               </h4>
               
               <div className="grid grid-cols-2 gap-4">
@@ -140,7 +140,7 @@ export default function SmartContractActions() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="transferAmount">Amount (VLR)</Label>
+                  <Label htmlFor="transferAmount">Amount (BTR)</Label>
                   <Input
                     id="transferAmount"
                     type="number"
@@ -186,7 +186,7 @@ export default function SmartContractActions() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="approveAmount">Amount (VLR)</Label>
+                  <Label htmlFor="approveAmount">Amount (BTR)</Label>
                   <Input
                     id="approveAmount"
                     type="number"
@@ -309,7 +309,7 @@ export default function SmartContractActions() {
             <div className="space-y-4">
               <h4 className="text-sm font-medium flex items-center gap-2">
                 <Lock className="w-4 h-4" />
-                Stake Velora Tokens
+                Stake Batara Tokens
               </h4>
               
               <div className="space-y-2">
@@ -344,7 +344,7 @@ export default function SmartContractActions() {
             <div className="space-y-4">
               <h4 className="text-sm font-medium flex items-center gap-2">
                 <Unlock className="w-4 h-4" />
-                Unstake Velora Tokens
+                Unstake Batara Tokens
               </h4>
               
               <div className="space-y-2">

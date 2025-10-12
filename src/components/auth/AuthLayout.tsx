@@ -8,7 +8,7 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({
   children,
-  title = "VeloraCloud",
+  title = "BataraCloud",
   subtitle = "Access your decentralized cloud infrastructure",
 }: AuthLayoutProps) {
   return (

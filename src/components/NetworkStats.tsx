@@ -54,7 +54,7 @@ const NetworkStats = () => {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-bold gradient-text">Network Statistics</h2>
-            <p className="text-muted-foreground">Real-time VeloraCloud network metrics</p>
+            <p className="text-muted-foreground">Real-time BataraCloud network metrics</p>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-cyber-green rounded-full pulse-glow"></div>

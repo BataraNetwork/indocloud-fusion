@@ -51,7 +51,7 @@ const resources = {
       
       // Wallet
       balance: 'Balance',
-      veloraTokens: 'VLR Tokens',
+      bataraTokens: 'BTR Tokens',
       transactions: 'Transactions',
       send: 'Send',
       receive: 'Receive',
@@ -139,7 +139,7 @@ const resources = {
       
       // Wallet
       balance: 'Saldo',
-      veloraTokens: 'Token VLR',
+      bataraTokens: 'Token BTR',
       transactions: 'Transaksi',
       send: 'Kirim',
       receive: 'Terima',

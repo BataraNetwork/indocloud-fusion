@@ -29,13 +29,13 @@ import {
   RefreshCw
 } from "lucide-react";
 
-// Enhanced transaction data with more details
+// Enhanced transaction data with more details - all VLR changed to BTR
 const transactions = [
   {
     id: 1,
     type: "earned",
     category: "storage_reward",
-    amount: "+127.8 VLR",
+    amount: "+127.8 BTR",
     usd: "+$291.34",
     description: "Node Storage Rewards",
     timestamp: "2 hours ago",
@@ -49,7 +49,7 @@ const transactions = [
     id: 2,
     type: "spent",
     category: "compute_rental",
-    amount: "-45.2 VLR",
+    amount: "-45.2 BTR",
     usd: "-$103.16", 
     description: "GPU Compute Rental Payment",
     timestamp: "5 hours ago",
@@ -63,7 +63,7 @@ const transactions = [
     id: 3,
     type: "earned",
     category: "file_storage",
-    amount: "+89.5 VLR",
+    amount: "+89.5 BTR",
     usd: "+$204.27",
     description: "IPFS File Storage Revenue", 
     timestamp: "1 day ago",
@@ -77,7 +77,7 @@ const transactions = [
     id: 4,
     type: "staking",
     category: "stake_reward",
-    amount: "+12.3 VLR",
+    amount: "+12.3 BTR",
     usd: "+$28.05",
     description: "Staking Rewards",
     timestamp: "2 days ago",
@@ -152,11 +152,11 @@ const EnhancedWalletSection = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* Header - Changed to Batara */}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-cyber-purple to-cyber-cyan bg-clip-text text-transparent">
-            Velora Wallet & Smart Contracts
+            Batara Wallet & Smart Contracts
           </h2>
           <p className="text-muted-foreground">Manage your tokens and blockchain interactions</p>
         </div>
@@ -176,7 +176,7 @@ const EnhancedWalletSection = () => {
 
       <SmartContractActions />
 
-      {/* Enhanced Portfolio Overview */}
+      {/* Enhanced Portfolio Overview - All VLR changed to BTR */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Enhanced Balance Card */}
         <Card className="lg:col-span-2 glass-card animated-border">
@@ -185,7 +185,7 @@ const EnhancedWalletSection = () => {
               <div>
                 <p className="text-sm text-muted-foreground mb-2">Total Balance</p>
                 <p className="text-5xl font-bold gradient-cosmic mb-2">
-                  1,250.45 VLR
+                  1,250.45 BTR
                 </p>
                 <p className="text-xl text-muted-foreground mb-4">≈ $2,847.32 USD</p>
                 <div className="flex items-center gap-4">
@@ -220,7 +220,7 @@ const EnhancedWalletSection = () => {
               </Button>
               <Button variant="outline" className="border-cyber-cyan/50 text-cyber-cyan hover:bg-cyber-cyan/10">
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Buy VLR
+                Buy BTR
               </Button>
               <Button variant="outline" className="border-cyber-purple/50 text-cyber-purple hover:bg-cyber-purple/10">
                 <QrCode className="w-4 h-4 mr-2" />
@@ -281,7 +281,7 @@ const EnhancedWalletSection = () => {
         </Card>
       </div>
 
-      {/* Enhanced Portfolio Overview */}
+      {/* Enhanced Portfolio Overview Stats - All BTR */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="glass-card hover-lift">
           <CardContent className="p-6">
@@ -291,7 +291,7 @@ const EnhancedWalletSection = () => {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Monthly Earnings</p>
-                <p className="text-xl font-bold text-cyber-purple">847.2 VLR</p>
+                <p className="text-xl font-bold text-cyber-purple">847.2 BTR</p>
                 <div className="flex items-center gap-1 text-cyber-green text-xs">
                   <TrendingUp className="w-3 h-3" />
                   +23.4% vs last month
@@ -309,7 +309,7 @@ const EnhancedWalletSection = () => {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Staked Amount</p>
-                <p className="text-xl font-bold text-cyber-cyan">500.0 VLR</p>
+                <p className="text-xl font-bold text-cyber-cyan">500.0 BTR</p>
                 <p className="text-xs text-cyber-cyan">18% APY • 30 days lock</p>
               </div>
             </div>
@@ -324,7 +324,7 @@ const EnhancedWalletSection = () => {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Rewards Pending</p>
-                <p className="text-xl font-bold text-cyber-green">47.3 VLR</p>
+                <p className="text-xl font-bold text-cyber-green">47.3 BTR</p>
                 <p className="text-xs text-cyber-green">Auto-claim in 2h 15m</p>
               </div>
             </div>
@@ -339,7 +339,7 @@ const EnhancedWalletSection = () => {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Monthly Spent</p>
-                <p className="text-xl font-bold text-cyber-pink">127.4 VLR</p>
+                <p className="text-xl font-bold text-cyber-pink">127.4 BTR</p>
                 <div className="flex items-center gap-1 text-cyber-green text-xs">
                   <TrendingDown className="w-3 h-3" />
                   -8.7% vs last month
@@ -431,7 +431,7 @@ const EnhancedWalletSection = () => {
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div>
                       <p className="text-sm text-muted-foreground">Staked Amount</p>
-                      <p className="text-2xl font-bold text-cyber-cyan">500.0 VLR</p>
+                      <p className="text-2xl font-bold text-cyber-cyan">500.0 BTR</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Current APY</p>
@@ -439,7 +439,7 @@ const EnhancedWalletSection = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Earned Rewards</p>
-                      <p className="text-2xl font-bold text-cyber-purple">47.3 VLR</p>
+                      <p className="text-2xl font-bold text-cyber-purple">47.3 BTR</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Unlock Date</p>
@@ -457,16 +457,11 @@ const EnhancedWalletSection = () => {
                   </div>
                   
                   <div className="flex gap-3 mt-6">
-                    <Button className="bg-gradient-to-r from-cyber-green to-cyber-cyan hover:opacity-90">
-                      <Coins className="w-4 h-4 mr-2" />
-                      Claim Rewards
-                    </Button>
-                    <Button variant="outline" className="border-cyber-purple/50">
+                    <Button className="flex-1 bg-gradient-to-r from-cyber-cyan to-cyber-purple">
                       Add to Stake
                     </Button>
-                    <Button variant="outline" className="border-destructive/50 text-destructive">
-                      <Unlock className="w-4 h-4 mr-2" />
-                      Emergency Unstake
+                    <Button variant="outline" className="flex-1 border-cyber-cyan/50">
+                      Claim Rewards
                     </Button>
                   </div>
                 </div>
@@ -476,47 +471,33 @@ const EnhancedWalletSection = () => {
             {/* Staking Options */}
             <Card className="glass-card">
               <CardHeader>
-                <CardTitle>Available Staking Options</CardTitle>
+                <CardTitle>Staking Packages</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {stakingOptions.map((option, index) => (
-                    <div 
-                      key={index}
-                      className={`p-4 rounded-lg glass border cursor-pointer transition-all hover-lift ${
-                        selectedStaking === index ? `border-${option.color}` : 'border-border'
-                      }`}
-                      onClick={() => setSelectedStaking(index)}
-                    >
-                      <div className="flex justify-between items-start mb-3">
+              <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {stakingOptions.map((option, index) => (
+                  <Card 
+                    key={index}
+                    className={`glass cursor-pointer hover-lift transition-all ${
+                      selectedStaking === index ? 'border-cyber-cyan shadow-lg' : ''
+                    }`}
+                    onClick={() => setSelectedStaking(index)}
+                  >
+                    <CardContent className="p-4 space-y-3">
+                      <div className="flex justify-between items-start">
                         <div>
                           <h4 className="font-semibold">{option.duration} Lock</h4>
-                          <p className="text-sm text-muted-foreground">Min: {option.minAmount} VLR</p>
+                          <p className="text-sm text-muted-foreground">Min: {option.minAmount} BTR</p>
                         </div>
-                        <div className="text-right">
-                          <div className={`text-2xl font-bold text-${option.color}`}>{option.apy}</div>
-                          <div className="text-xs text-muted-foreground">APY</div>
-                        </div>
+                        <Badge variant="secondary" className={`bg-${option.color}/20 text-${option.color}`}>
+                          {option.apy} APY
+                        </Badge>
                       </div>
-                      <Badge variant="outline" className={`border-${option.color}/30 text-${option.color}`}>
-                        {option.risk} Risk
-                      </Badge>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="mt-6 p-4 rounded-lg glass border border-cyber-purple/30">
-                  <h4 className="font-semibold mb-3">Stake New Amount</h4>
-                  <div className="flex gap-3">
-                    <Input 
-                      placeholder="Enter VLR amount..." 
-                      className="flex-1"
-                    />
-                    <Button className="bg-gradient-to-r from-cyber-purple to-cyber-cyan hover:opacity-90">
-                      Stake Now
-                    </Button>
-                  </div>
-                </div>
+                      <div className="text-xs text-muted-foreground">
+                        Risk: {option.risk}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </CardContent>
             </Card>
           </div>
@@ -524,91 +505,88 @@ const EnhancedWalletSection = () => {
 
         <TabsContent value="send" className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Send Tokens */}
+            {/* Send BTR */}
             <Card className="glass-card">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Send className="w-5 h-5 text-cyber-purple" />
-                  Send VLR
+                  Send BTR
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Recipient Address</label>
-                  <Input 
-                    placeholder="0x..." 
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Recipient Address</label>
+                  <Input
+                    placeholder="0x..."
                     value={sendAddress}
                     onChange={(e) => setSendAddress(e.target.value)}
+                    className="font-mono"
                   />
                 </div>
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Amount</label>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Amount</label>
                   <div className="relative">
                     <Input 
-                      placeholder="0.00" 
+                      placeholder="Enter BTR amount..." 
+                      className="flex-1"
+                      type="number"
                       value={sendAmount}
                       onChange={(e) => setSendAmount(e.target.value)}
-                      className="pr-16"
                     />
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground">
-                      VLR
+                      BTR
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Balance: 1,250.45 VLR
+                    Balance: 1,250.45 BTR
                   </p>
                 </div>
-                <div className="p-3 rounded-lg bg-muted/20">
+
+                <div className="p-3 rounded-lg bg-muted/20 border border-accent/30">
                   <div className="flex justify-between text-sm mb-1">
                     <span>Network Fee:</span>
-                    <span>~0.005 MATIC</span>
+                    <span>0.005 MATIC</span>
                   </div>
-                  <div className="flex justify-between text-sm font-medium">
+                  <div className="flex justify-between text-sm">
                     <span>Total:</span>
-                    <span>{sendAmount || '0'} VLR + 0.005 MATIC</span>
+                    <span>{sendAmount || '0'} BTR + 0.005 MATIC</span>
                   </div>
                 </div>
-                <Button className="w-full bg-gradient-to-r from-cyber-purple to-cyber-pink hover:opacity-90">
-                  Send Transaction
+
+                <Button className="w-full bg-gradient-to-r from-cyber-purple to-cyber-pink">
+                  <Send className="w-4 h-4 mr-2" />
+                  Send BTR
                 </Button>
               </CardContent>
             </Card>
 
-            {/* Receive Tokens */}
+            {/* Receive BTR */}
             <Card className="glass-card">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <ArrowDownLeft className="w-5 h-5 text-cyber-green" />
-                  Receive VLR
+                  Receive BTR
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-center p-6">
-                  <div className="w-32 h-32 mx-auto mb-4 bg-muted/20 rounded-lg flex items-center justify-center">
-                    <QrCode className="w-16 h-16 text-muted-foreground" />
+                <div className="flex flex-col items-center justify-center p-6 rounded-lg bg-muted/20 border border-accent/30">
+                  <div className="w-48 h-48 bg-white/90 rounded-lg flex items-center justify-center mb-4">
+                    <span className="text-xs text-muted-foreground">QR Code</span>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Scan QR code or copy address below
-                  </p>
-                  <div className="p-3 rounded-lg bg-muted/20 border">
-                    <code className="text-sm break-all">
-                      0xa1b2c3d4e5f6789012345678901234567890abcd
-                    </code>
-                  </div>
-                  <Button variant="outline" className="mt-3 w-full">
+                  <code className="text-sm bg-muted/50 px-3 py-2 rounded font-mono text-center break-all">
+                    0xa1b2c3d4e5f6789012345678901234567890
+                  </code>
+                  <Button variant="ghost" size="sm" className="mt-2">
                     <Copy className="w-4 h-4 mr-2" />
                     Copy Address
                   </Button>
                 </div>
-                
-                <div className="space-y-2 text-xs text-muted-foreground">
-                  <p className="flex items-center gap-2">
+
+                <div className="p-3 rounded-lg bg-muted/20 border border-accent/30">
+                  <p className="text-xs text-muted-foreground flex items-center gap-2">
                     <Shield className="w-3 h-3" />
-                    Only send VLR tokens to this address
-                  </p>
-                  <p className="flex items-center gap-2">
-                    <Clock className="w-3 h-3" />
-                    Transactions typically confirm in 1-3 minutes
+                    Only send BTR tokens to this address
                   </p>
                 </div>
               </CardContent>
@@ -617,50 +595,36 @@ const EnhancedWalletSection = () => {
         </TabsContent>
 
         <TabsContent value="analytics" className="mt-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="glass-card">
-              <CardHeader>
-                <CardTitle>Portfolio Performance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-64 flex items-center justify-center">
-                  <div className="text-center">
-                    <TrendingUp className="w-16 h-16 text-muted-foreground mx-auto mb-4 animate-pulse" />
-                    <p className="text-muted-foreground">Portfolio analytics coming soon</p>
-                  </div>
+          <Card className="glass-card">
+            <CardHeader>
+              <CardTitle>Earnings Analytics</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Storage Rewards</span>
+                  <span className="font-medium text-cyber-green">427.3 BTR (50.4%)</span>
                 </div>
-              </CardContent>
-            </Card>
+                <Progress value={50.4} className="h-2" />
+              </div>
 
-            <Card className="glass-card">
-              <CardHeader>
-                <CardTitle>Earnings Breakdown</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-sm">Storage Rewards</span>
-                    <span className="font-medium text-cyber-green">427.3 VLR (50.4%)</span>
-                  </div>
-                  <Progress value={50.4} className="h-2" />
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Staking Rewards</span>
+                  <span className="font-medium text-cyber-cyan">298.7 BTR (35.3%)</span>
                 </div>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-sm">Staking Rewards</span>
-                    <span className="font-medium text-cyber-cyan">298.7 VLR (35.3%)</span>
-                  </div>
-                  <Progress value={35.3} className="h-2" />
+                <Progress value={35.3} className="h-2" />
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">File Storage</span>
+                  <span className="font-medium text-cyber-purple">121.2 BTR (14.3%)</span>
                 </div>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-sm">File Storage</span>
-                    <span className="font-medium text-cyber-purple">121.2 VLR (14.3%)</span>
-                  </div>
-                  <Progress value={14.3} className="h-2" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                <Progress value={14.3} className="h-2" />
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

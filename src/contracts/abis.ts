@@ -1,6 +1,6 @@
-// Smart Contract ABIs for VeloraCloud Platform
+// Smart Contract ABIs for BataraCloud Platform
 
-export const VELORA_TOKEN_ABI = [
+export const BATARA_TOKEN_ABI = [
   "function name() view returns (string)",
   "function symbol() view returns (string)",
   "function decimals() view returns (uint8)",
@@ -53,7 +53,7 @@ export const STAKING_CONTRACT_ABI = [
 
 // Contract addresses (replace with actual deployed addresses)
 export const CONTRACT_ADDRESSES = {
-  VELORA_TOKEN: "0x0000000000000000000000000000000000000001", // Replace with actual Velora token address
+  BATARA_TOKEN: "0x0000000000000000000000000000000000000001", // Replace with actual Batara token address
   NODE_MARKETPLACE: "0x0000000000000000000000000000000000000002", // Replace with actual marketplace address
   STORAGE_ESCROW: "0x0000000000000000000000000000000000000003", // Replace with actual storage escrow address
   STAKING_CONTRACT: "0x0000000000000000000000000000000000000004", // Replace with actual staking address

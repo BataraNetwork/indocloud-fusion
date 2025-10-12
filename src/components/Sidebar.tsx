@@ -42,7 +42,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     { id: "compute", label: t("compute"), icon: Cpu },
     { id: "marketplace", label: t("marketplace"), icon: Network },
     { id: "wallet", label: t("wallet"), icon: Wallet },
-    { id: "tokens", label: t("veloraTokens"), icon: Coins },
+    { id: "tokens", label: t("bataraTokens"), icon: Coins },
     { id: "security", label: "ZK Security", icon: Shield },
     { id: "settings", label: t("settings"), icon: Settings },
   ];
@@ -58,7 +58,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     } else {
       toast({
         title: t("success"),
-        description: "Successfully logged out from VeloraCloud",
+        description: "Successfully logged out from BataraCloud",
       });
       navigate('/auth');
     }
@@ -75,7 +75,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
           <div className="flex items-center gap-2">
             <Cloud className="w-8 h-8 text-cyber-purple" />
             <span className="font-bold text-lg bg-gradient-to-r from-cyber-purple to-cyber-cyan bg-clip-text text-transparent">
-              VeloraCloud
+              BataraCloud
             </span>
           </div>
         )}
