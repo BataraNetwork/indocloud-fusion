@@ -1,5 +1,5 @@
 groups:
-- name: indoblockcloud.rules
+- name: bataracloud.rules
   rules:
   # High error rate alert
   - alert: HighErrorRate
@@ -23,13 +23,13 @@ groups:
 
   # Application down alert
   - alert: ApplicationDown
-    expr: up{job="indoblockcloud"} == 0
+    expr: up{job="bataracloud"} == 0
     for: 1m
     labels:
       severity: critical
     annotations:
-      summary: "IndoBlockCloud application is down"
-      description: "IndoBlockCloud application has been down for more than 1 minute"
+      summary: "BataraCloud application is down"
+      description: "BataraCloud application has been down for more than 1 minute"
 
   # High memory usage alert
   - alert: HighMemoryUsage

@@ -42,7 +42,7 @@ const Index = () => {
         <div className="text-center">
           <Lock className="w-16 h-16 mx-auto mb-4 text-muted-foreground" aria-hidden="true" />
           <h2 className="text-2xl font-bold mb-2">Access Required</h2>
-          <p className="text-muted-foreground mb-6">Please sign in to access VeloraCloud</p>
+          <p className="text-muted-foreground mb-6">Please sign in to access BataraCloud</p>
           <Button 
             onClick={() => navigate('/auth')}
             className="bg-gradient-to-r from-cyber-purple to-cyber-cyan hover:opacity-90"
@@ -70,7 +70,7 @@ const Index = () => {
       case "tokens":
         return (
           <div className="flex items-center justify-center h-64" role="status">
-            <p className="text-muted-foreground">{t('indoTokens')} management coming soon...</p>
+            <p className="text-muted-foreground">{t('bataraTokens')} management coming soon...</p>
           </div>
         );
       case "security":

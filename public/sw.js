@@ -1,4 +1,4 @@
-const CACHE_NAME = 'indoblockcloud-v1';
+const CACHE_NAME = 'bataracloud-v1';
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',

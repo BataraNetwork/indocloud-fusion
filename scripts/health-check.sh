@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# IndoBlockCloud Health Check Script
+# BataraCloud Health Check Script
 set -e
 
 ENDPOINT=${1:-http://localhost}
 MAX_RETRIES=5
 RETRY_INTERVAL=10
 
-echo "🔍 Running health checks for IndoBlockCloud..."
+echo "🔍 Running health checks for BataraCloud..."
 
 # Function to check HTTP endpoint
 check_endpoint() {
@@ -73,6 +73,6 @@ echo "✅ All health checks passed!"
 # Optional: Send success notification
 if [ -n "$SLACK_WEBHOOK_URL" ]; then
     curl -X POST -H 'Content-type: application/json' \
-        --data '{"text":"✅ IndoBlockCloud health checks passed successfully!"}' \
+        --data '{"text":"✅ BataraCloud health checks passed successfully!"}' \
         "$SLACK_WEBHOOK_URL"
 fi

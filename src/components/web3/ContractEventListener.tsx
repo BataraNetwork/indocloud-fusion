@@ -26,7 +26,7 @@ interface ContractEvent {
 
 export default function ContractEventListener() {
   const { isConnected, account } = useWeb3();
-  const { indoToken, nodeMarketplace, stakingContract } = useContracts();
+  const { bataraToken, nodeMarketplace, stakingContract } = useContracts();
   const { toast } = useToast();
   const [events, setEvents] = useState<ContractEvent[]>([]);
 
@@ -35,10 +35,10 @@ export default function ContractEventListener() {
 
     const listeners: any[] = [];
 
-    // INDO Token Events
-    if (indoToken) {
-      const transferFilter = indoToken.filters.Transfer(account);
-      const transferToFilter = indoToken.filters.Transfer(null, account);
+    // Batara Token Events
+    if (bataraToken) {
+      const transferFilter = bataraToken.filters.Transfer(account);
+      const transferToFilter = bataraToken.filters.Transfer(null, account);
       
       const handleTransfer = (from: string, to: string, value: bigint, event: any) => {
         const isIncoming = to.toLowerCase() === account.toLowerCase();
@@ -63,16 +63,16 @@ export default function ContractEventListener() {
           
           toast({
             title: isIncoming ? "Tokens Received" : "Tokens Sent",
-            description: `${(Number(value) / 1e18).toFixed(4)} INDO ${isIncoming ? 'received from' : 'sent to'} ${(isIncoming ? from : to).slice(0, 8)}...`,
+            description: `${(Number(value) / 1e18).toFixed(4)} BTR ${isIncoming ? 'received from' : 'sent to'} ${(isIncoming ? from : to).slice(0, 8)}...`,
           });
         }
       };
 
-      indoToken.on(transferFilter, handleTransfer);
-      indoToken.on(transferToFilter, handleTransfer);
+      bataraToken.on(transferFilter, handleTransfer);
+      bataraToken.on(transferToFilter, handleTransfer);
       listeners.push(() => {
-        indoToken.off(transferFilter, handleTransfer);
-        indoToken.off(transferToFilter, handleTransfer);
+        bataraToken.off(transferFilter, handleTransfer);
+        bataraToken.off(transferToFilter, handleTransfer);
       });
     }
 
@@ -159,7 +159,7 @@ export default function ContractEventListener() {
     return () => {
       listeners.forEach(cleanup => cleanup());
     };
-  }, [isConnected, account, indoToken, nodeMarketplace, stakingContract, toast]);
+  }, [isConnected, account, bataraToken, nodeMarketplace, stakingContract, toast]);
 
   const getEventIcon = (type: ContractEvent['type']) => {
     switch (type) {

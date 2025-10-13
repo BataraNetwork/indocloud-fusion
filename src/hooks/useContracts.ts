@@ -15,7 +15,7 @@ export const useContracts = () => {
   const contracts = useMemo(() => {
     if (!provider || !signer || !isConnected) {
       return {
-        indoToken: null,
+        bataraToken: null,
         nodeMarketplace: null,
         storageEscrow: null,
         stakingContract: null,
@@ -23,7 +23,7 @@ export const useContracts = () => {
     }
 
     return {
-      indoToken: new ethers.Contract(
+      bataraToken: new ethers.Contract(
         CONTRACT_ADDRESSES.BATARA_TOKEN,
         BATARA_TOKEN_ABI,
         signer
@@ -51,33 +51,33 @@ export const useContracts = () => {
 
 // Hook for token operations
 export const useTokenOperations = () => {
-  const { indoToken } = useContracts();
+  const { bataraToken } = useContracts();
   const { account } = useWeb3();
 
   const getBalance = async (address?: string): Promise<string> => {
-    if (!indoToken) throw new Error('Contract not initialized');
+    if (!bataraToken) throw new Error('Contract not initialized');
     const targetAddress = address || account;
     if (!targetAddress) throw new Error('No address provided');
     
-    const balance = await indoToken.balanceOf(targetAddress);
+    const balance = await bataraToken.balanceOf(targetAddress);
     return ethers.formatEther(balance);
   };
 
   const transfer = async (to: string, amount: string): Promise<ethers.ContractTransactionResponse> => {
-    if (!indoToken) throw new Error('Contract not initialized');
+    if (!bataraToken) throw new Error('Contract not initialized');
     const amountWei = ethers.parseEther(amount);
-    return await indoToken.transfer(to, amountWei);
+    return await bataraToken.transfer(to, amountWei);
   };
 
   const approve = async (spender: string, amount: string): Promise<ethers.ContractTransactionResponse> => {
-    if (!indoToken) throw new Error('Contract not initialized');
+    if (!bataraToken) throw new Error('Contract not initialized');
     const amountWei = ethers.parseEther(amount);
-    return await indoToken.approve(spender, amountWei);
+    return await bataraToken.approve(spender, amountWei);
   };
 
   const getAllowance = async (owner: string, spender: string): Promise<string> => {
-    if (!indoToken) throw new Error('Contract not initialized');
-    const allowance = await indoToken.allowance(owner, spender);
+    if (!bataraToken) throw new Error('Contract not initialized');
+    const allowance = await bataraToken.allowance(owner, spender);
     return ethers.formatEther(allowance);
   };
 

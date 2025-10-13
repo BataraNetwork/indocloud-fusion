@@ -75,7 +75,7 @@ export function InstallPrompt() {
         </div>
         
         <p className="text-sm text-muted-foreground mb-4">
-          Install IndoBlockCloud for quick access and offline capabilities.
+          Install BataraCloud for quick access and offline capabilities.
         </p>
         
         <div className="flex gap-2">

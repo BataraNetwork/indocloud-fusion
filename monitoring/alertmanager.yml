@@ -1,6 +1,6 @@
 global:
   smtp_smarthost: 'localhost:587'
-  smtp_from: 'alerts@indoblockcloud.com'
+  smtp_from: 'alerts@bataracloud.com'
   slack_api_url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
 
 route:
@@ -24,7 +24,7 @@ receivers:
 
 - name: 'critical-alerts'
   email_configs:
-  - to: 'devops@indoblockcloud.com'
+  - to: 'devops@bataracloud.com'
     subject: '🚨 Critical Alert: {{ .GroupLabels.alertname }}'
     body: |
       {{ range .Alerts }}

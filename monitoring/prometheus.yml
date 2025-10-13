@@ -12,10 +12,10 @@ alerting:
           - alertmanager:9093
 
 scrape_configs:
-  # IndoBlockCloud application metrics
-  - job_name: 'indoblockcloud'
+  # BataraCloud application metrics
+  - job_name: 'bataracloud'
     static_configs:
-      - targets: ['indoblockcloud-service:80']
+      - targets: ['bataracloud-service:80']
     metrics_path: '/metrics'
     scrape_interval: 30s
 

@@ -29,7 +29,7 @@ import {
   RefreshCw
 } from "lucide-react";
 
-// Enhanced transaction data with more details - all VLR changed to BTR
+// Enhanced transaction data with BTR token
 const transactions = [
   {
     id: 1,
@@ -176,7 +176,7 @@ const EnhancedWalletSection = () => {
 
       <SmartContractActions />
 
-      {/* Enhanced Portfolio Overview - All VLR changed to BTR */}
+      {/* Enhanced Portfolio Overview with BTR token */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Enhanced Balance Card */}
         <Card className="lg:col-span-2 glass-card animated-border">

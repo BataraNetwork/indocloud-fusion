@@ -1,8 +1,8 @@
 {
   "dashboard": {
     "id": null,
-    "title": "IndoBlockCloud - Application Dashboard",
-    "tags": ["indoblockcloud", "blockchain", "web3"],
+    "title": "BataraCloud - Application Dashboard",
+    "tags": ["bataracloud", "blockchain", "web3"],
     "timezone": "browser",
     "panels": [
       {
@@ -11,7 +11,7 @@
         "type": "graph",
         "targets": [
           {
-            "expr": "rate(http_requests_total{job=\"indoblockcloud\"}[5m])",
+            "expr": "rate(http_requests_total{job=\"bataracloud\"}[5m])",
             "legendFormat": "{{ method }} {{ status }}"
           }
         ],
@@ -33,11 +33,11 @@
         "type": "graph",
         "targets": [
           {
-            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=\"indoblockcloud\"}[5m]))",
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=\"bataracloud\"}[5m]))",
             "legendFormat": "95th percentile"
           },
           {
-            "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket{job=\"indoblockcloud\"}[5m]))",
+            "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket{job=\"bataracloud\"}[5m]))",
             "legendFormat": "50th percentile"
           }
         ],
@@ -59,7 +59,7 @@
         "type": "singlestat",
         "targets": [
           {
-            "expr": "rate(http_requests_total{job=\"indoblockcloud\",status=~\"5..\"}[5m]) / rate(http_requests_total{job=\"indoblockcloud\"}[5m]) * 100"
+            "expr": "rate(http_requests_total{job=\"bataracloud\",status=~\"5..\"}[5m]) / rate(http_requests_total{job=\"bataracloud\"}[5m]) * 100"
           }
         ],
         "postfix": "%",
@@ -79,7 +79,7 @@
         "type": "singlestat",
         "targets": [
           {
-            "expr": "increase(user_sessions_total{job=\"indoblockcloud\"}[1h])"
+            "expr": "increase(user_sessions_total{job=\"bataracloud\"}[1h])"
           }
         ],
         "gridPos": {
@@ -95,7 +95,7 @@
         "type": "graph",
         "targets": [
           {
-            "expr": "rate(web3_transactions_total{job=\"indoblockcloud\"}[5m])",
+            "expr": "rate(web3_transactions_total{job=\"bataracloud\"}[5m])",
             "legendFormat": "{{ status }}"
           }
         ],
@@ -117,11 +117,11 @@
         "type": "graph",
         "targets": [
           {
-            "expr": "storage_bytes_used{job=\"indoblockcloud\"}",
+            "expr": "storage_bytes_used{job=\"bataracloud\"}",
             "legendFormat": "Used"
           },
           {
-            "expr": "storage_bytes_total{job=\"indoblockcloud\"}",
+            "expr": "storage_bytes_total{job=\"bataracloud\"}",
             "legendFormat": "Total"
           }
         ],
@@ -144,11 +144,11 @@
         "type": "graph",
         "targets": [
           {
-            "expr": "avg(compute_node_cpu_usage{job=\"indoblockcloud\"})",
+            "expr": "avg(compute_node_cpu_usage{job=\"bataracloud\"})",
             "legendFormat": "CPU Usage"
           },
           {
-            "expr": "avg(compute_node_memory_usage{job=\"indoblockcloud\"})",
+            "expr": "avg(compute_node_memory_usage{job=\"bataracloud\"})",
             "legendFormat": "Memory Usage"
           }
         ],

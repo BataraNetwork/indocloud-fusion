@@ -99,6 +99,6 @@ jobs:
       uses: 8398a7/action-slack@v3
       with:
         status: success
-        text: 'IndoBlockCloud deployed successfully to production! 🚀'
+        text: 'BataraCloud deployed successfully to production! 🚀'
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

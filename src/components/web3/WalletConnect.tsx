@@ -73,7 +73,7 @@ export default function WalletConnect() {
           </div>
           <CardTitle>Connect Your Wallet</CardTitle>
           <CardDescription>
-            Connect your Web3 wallet to access IndoBlockCloud features
+            Connect your Web3 wallet to access BataraCloud features
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

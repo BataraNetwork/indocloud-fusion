@@ -37,7 +37,7 @@ export const useAuthActions = () => {
       if (error) {
         showError("Login Failed", error.message || JSON.stringify(error));
       } else {
-        showSuccess("Welcome back!", "Successfully logged in to IndoBlockCloud");
+        showSuccess("Welcome back!", "Successfully logged in to BataraCloud");
         navigate("/");
       }
     } catch (err) {
