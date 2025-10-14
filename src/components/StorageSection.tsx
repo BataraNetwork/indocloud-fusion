@@ -1,257 +1,313 @@
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { 
-  Upload, 
-  Download, 
-  File, 
-  Folder, 
-  Search,
-  MoreVertical,
-  Share,
-  Trash2,
-  Eye,
-  HardDrive,
-  Cloud,
-  Lock
-} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  Cloud, 
+  Database, 
+  Download, 
+  Grid, 
+  HardDrive, 
+  List, 
+  Lock, 
+  RefreshCw, 
+  Search, 
+  Share2, 
+  Upload,
+  Trash2,
+  File
+} from "lucide-react";
+import { useState, useRef } from "react";
+import { useStorage } from "@/hooks/useStorage";
 
-// Mock data for files
-const files = [
-  { 
-    id: 1, 
-    name: "ML_Dataset_2024.csv", 
-    size: "2.3 GB", 
-    type: "CSV", 
-    uploaded: "2 hours ago",
-    ipfsHash: "QmX7d9f2k...",
-    replicas: 5,
-    status: "distributed"
-  },
-  { 
-    id: 2, 
-    name: "Project_Proposal.pdf", 
-    size: "4.7 MB", 
-    type: "PDF", 
-    uploaded: "1 day ago",
-    ipfsHash: "QmY8e1a3j...",
-    replicas: 3,
-    status: "distributed"
-  },
-  { 
-    id: 3, 
-    name: "Website_Backup.zip", 
-    size: "127 MB", 
-    type: "ZIP", 
-    uploaded: "3 days ago",
-    ipfsHash: "QmZ9f2b4k...",
-    replicas: 4,
-    status: "replicating"
-  },
-];
+const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+};
+
+const formatDate = (dateString: string): string => {
+  return new Date(dateString).toLocaleDateString('id-ID', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+};
 
 export default function StorageSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  const { 
+    files, 
+    loading, 
+    uploading, 
+    storageUsed, 
+    uploadFile, 
+    downloadFile, 
+    deleteFile,
+    refreshFiles 
+  } = useStorage();
+
+  const storageLimit = 10 * 1024 * 1024 * 1024; // 10GB
+  const storagePercentage = (storageUsed / storageLimit) * 100;
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    for (const file of droppedFiles) {
+      await uploadFile(file);
+    }
+  };
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = e.target.files;
+    if (!selectedFiles) return;
+    
+    for (let i = 0; i < selectedFiles.length; i++) {
+      await uploadFile(selectedFiles[i]);
+    }
+    
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const filteredFiles = files.filter(file =>
+    file.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="space-y-6">
       {/* Storage Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-card/50 backdrop-blur border-accent/30">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-lg bg-cyber-purple/20">
-                <HardDrive className="w-6 h-6 text-cyber-purple" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Used Storage</p>
-                <p className="text-2xl font-bold">2.4 TB</p>
-                <Progress value={65} className="h-2 mt-2" />
-              </div>
-            </div>
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Used Storage</CardTitle>
+            <HardDrive className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatFileSize(storageUsed)}</div>
+            <p className="text-xs text-muted-foreground">of 10GB</p>
+            <Progress value={storagePercentage} className="mt-2" />
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50 backdrop-blur border-accent/30">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-lg bg-cyber-cyan/20">
-                <Cloud className="w-6 h-6 text-cyber-cyan" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Distributed Files</p>
-                <p className="text-2xl font-bold">1,847</p>
-                <p className="text-xs text-cyber-cyan">Across 2,847 nodes</p>
-              </div>
-            </div>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Files</CardTitle>
+            <Database className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{files.length}</div>
+            <p className="text-xs text-muted-foreground">Stored securely</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50 backdrop-blur border-accent/30">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-lg bg-success/20">
-                <Lock className="w-6 h-6 text-success" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Encrypted Files</p>
-                <p className="text-2xl font-bold">100%</p>
-                <p className="text-xs text-success">ZK-proof secured</p>
-              </div>
-            </div>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Encrypted Files</CardTitle>
+            <Lock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">100%</div>
+            <p className="text-xs text-muted-foreground">End-to-end encrypted</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Upload Area */}
-      <Card className="bg-card/50 backdrop-blur border-accent/30">
-        <CardContent className="p-6">
+      {/* File Upload */}
+      <Card>
+        <CardContent className="pt-6">
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            className="hidden"
+            onChange={handleFileSelect}
+          />
           <div 
-            className={`border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 ${
-              isDragging 
-                ? "border-cyber-purple bg-cyber-purple/10" 
-                : "border-border hover:border-accent"
+            className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+              isDragging ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'
             }`}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setIsDragging(true);
-            }}
-            onDragLeave={() => setIsDragging(false)}
-            onDrop={(e) => {
-              e.preventDefault();
-              setIsDragging(false);
-              // Handle file drop
-            }}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
           >
-            <Cloud className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Upload to Decentralized Storage</h3>
-            <p className="text-muted-foreground mb-4">
-              Drag and drop files here or click to browse. Files are automatically encrypted and distributed across the network.
+            <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+            <h3 className="text-lg font-medium mb-2">Upload Files</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Drag and drop files here or click to browse
             </p>
-            <Button className="bg-gradient-to-r from-cyber-purple to-cyber-cyan hover:opacity-90">
-              <Upload className="w-4 h-4 mr-2" />
-              Select Files
+            <Button 
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+            >
+              <Cloud className="mr-2 h-4 w-4" />
+              {uploading ? 'Uploading...' : 'Select Files'}
             </Button>
           </div>
         </CardContent>
       </Card>
 
       {/* File Management */}
-      <Card className="bg-card/50 backdrop-blur border-accent/30">
+      <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <File className="w-5 h-5" />
-              My Files
-            </CardTitle>
-            <div className="flex items-center gap-2">
-              <div className="relative">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-                <Input 
-                  placeholder="Search files..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 w-64"
-                />
-              </div>
+          <CardTitle>My Files</CardTitle>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search files..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9"
+              />
             </div>
+            <Button 
+              variant="outline" 
+              size="icon"
+              onClick={refreshFiles}
+              disabled={loading}
+            >
+              <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+            </Button>
           </div>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="grid" className="w-full">
-            <TabsList className="mb-4">
-              <TabsTrigger value="grid">Grid View</TabsTrigger>
-              <TabsTrigger value="list">List View</TabsTrigger>
+            <TabsList>
+              <TabsTrigger value="grid">
+                <Grid className="h-4 w-4 mr-2" />
+                Grid
+              </TabsTrigger>
+              <TabsTrigger value="list">
+                <List className="h-4 w-4 mr-2" />
+                List
+              </TabsTrigger>
             </TabsList>
-            
-            <TabsContent value="grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {files.map((file) => (
-                <Card key={file.id} className="bg-muted/20 border-accent/30 hover:bg-muted/30 transition-colors">
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="p-2 rounded-lg bg-cyber-purple/20">
-                        <File className="w-6 h-6 text-cyber-purple" />
-                      </div>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <MoreVertical className="w-4 h-4" />
-                      </Button>
-                    </div>
-                    <h4 className="font-medium truncate mb-1">{file.name}</h4>
-                    <p className="text-sm text-muted-foreground mb-2">{file.size} • {file.uploaded}</p>
-                    
-                    <div className="flex items-center gap-2 mb-3">
-                      <Badge 
-                        variant="secondary" 
-                        className={`${
-                          file.status === 'distributed' 
-                            ? 'bg-success/20 text-success' 
-                            : 'bg-cyber-cyan/20 text-cyber-cyan'
-                        }`}
-                      >
-                        {file.status}
-                      </Badge>
-                      <span className="text-xs text-muted-foreground">
-                        {file.replicas} replicas
-                      </span>
-                    </div>
-                    
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline" className="flex-1">
-                        <Download className="w-3 h-3 mr-1" />
-                        Download
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        <Share className="w-3 h-3" />
-                      </Button>
+
+            <TabsContent value="grid" className="mt-4">
+              {loading ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  Loading files...
+                </div>
+              ) : filteredFiles.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  {searchQuery ? 'No files found' : 'No files uploaded yet'}
+                </div>
+              ) : (
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {filteredFiles.map((file) => (
+                    <Card key={file.id}>
+                      <CardHeader>
+                        <div className="flex items-center gap-2">
+                          <File className="h-4 w-4" />
+                          <CardTitle className="text-sm truncate">{file.name}</CardTitle>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Size:</span>
+                            <span>{formatFileSize(file.size)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Type:</span>
+                            <span>{file.type}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Uploaded:</span>
+                            <span>{formatDate(file.uploaded)}</span>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 mt-4">
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="flex-1"
+                            onClick={() => downloadFile(file)}
+                          >
+                            <Download className="h-3 w-3 mr-1" />
+                            Download
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => deleteFile(file)}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="list" className="mt-4">
+              {loading ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  Loading files...
+                </div>
+              ) : filteredFiles.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  {searchQuery ? 'No files found' : 'No files uploaded yet'}
+                </div>
+              ) : (
+                <Card>
+                  <CardContent className="p-0">
+                    <div className="divide-y">
+                      {filteredFiles.map((file) => (
+                        <div key={file.id} className="flex items-center justify-between p-4 hover:bg-muted/50">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium truncate">{file.name}</p>
+                            <div className="flex gap-4 text-sm text-muted-foreground mt-1">
+                              <span>{formatFileSize(file.size)}</span>
+                              <span>{file.type}</span>
+                              <span>{formatDate(file.uploaded)}</span>
+                            </div>
+                          </div>
+                          <div className="flex gap-2 ml-4">
+                            <Button 
+                              size="sm" 
+                              variant="ghost"
+                              onClick={() => downloadFile(file)}
+                            >
+                              <Download className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="ghost"
+                              onClick={() => deleteFile(file)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </TabsContent>
-            
-            <TabsContent value="list">
-              <div className="space-y-2">
-                {files.map((file) => (
-                  <div key={file.id} className="flex items-center gap-4 p-3 rounded-lg bg-muted/20 hover:bg-muted/30 transition-colors">
-                    <File className="w-8 h-8 text-cyber-purple" />
-                    <div className="flex-1">
-                      <h4 className="font-medium">{file.name}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        {file.size} • {file.uploaded} • IPFS: {file.ipfsHash}
-                      </p>
-                    </div>
-                    <Badge 
-                      variant="secondary" 
-                      className={`${
-                        file.status === 'distributed' 
-                          ? 'bg-success/20 text-success' 
-                          : 'bg-cyber-cyan/20 text-cyber-cyan'
-                      }`}
-                    >
-                      {file.status}
-                    </Badge>
-                    <div className="flex gap-1">
-                      <Button size="icon" variant="ghost" className="h-8 w-8">
-                        <Eye className="w-4 h-4" />
-                      </Button>
-                      <Button size="icon" variant="ghost" className="h-8 w-8">
-                        <Download className="w-4 h-4" />
-                      </Button>
-                      <Button size="icon" variant="ghost" className="h-8 w-8">
-                        <Share className="w-4 h-4" />
-                      </Button>
-                      <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive">
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              )}
             </TabsContent>
           </Tabs>
         </CardContent>

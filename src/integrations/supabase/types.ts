@@ -14,266 +14,943 @@ export type Database = {
   }
   public: {
     Tables: {
-      compute_jobs: {
+      analytics_events: {
         Row: {
-          completed_at: string | null
-          cost_indo: number | null
           created_at: string
-          docker_image: string | null
-          environment_vars: Json | null
+          event_type: string
           id: string
-          job_name: string
-          job_script: string | null
-          job_type: string
-          max_budget_indo: number | null
-          max_runtime_hours: number | null
-          node_id: string | null
-          progress: number | null
-          resource_requirements: Json | null
-          started_at: string | null
-          status: string
-          updated_at: string
-          user_id: string
+          page_path: string | null
+          properties: Json | null
+          referrer: string | null
+          session_id: string | null
+          user_agent: string | null
+          user_id: string | null
         }
         Insert: {
-          completed_at?: string | null
-          cost_indo?: number | null
           created_at?: string
-          docker_image?: string | null
-          environment_vars?: Json | null
+          event_type: string
           id?: string
-          job_name: string
-          job_script?: string | null
-          job_type: string
-          max_budget_indo?: number | null
-          max_runtime_hours?: number | null
-          node_id?: string | null
-          progress?: number | null
-          resource_requirements?: Json | null
-          started_at?: string | null
-          status?: string
-          updated_at?: string
-          user_id: string
+          page_path?: string | null
+          properties?: Json | null
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
         }
         Update: {
-          completed_at?: string | null
-          cost_indo?: number | null
           created_at?: string
-          docker_image?: string | null
-          environment_vars?: Json | null
+          event_type?: string
           id?: string
-          job_name?: string
-          job_script?: string | null
-          job_type?: string
-          max_budget_indo?: number | null
-          max_runtime_hours?: number | null
-          node_id?: string | null
-          progress?: number | null
-          resource_requirements?: Json | null
-          started_at?: string | null
-          status?: string
-          updated_at?: string
-          user_id?: string
+          page_path?: string | null
+          properties?: Json | null
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      api_keys: {
+        Row: {
+          api_key: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          key_name: string
+          last_used_at: string | null
+          merchant_id: string
+        }
+        Insert: {
+          api_key: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          key_name: string
+          last_used_at?: string | null
+          merchant_id: string
+        }
+        Update: {
+          api_key?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          key_name?: string
+          last_used_at?: string | null
+          merchant_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "compute_jobs_node_id_fkey"
-            columns: ["node_id"]
+            foreignKeyName: "api_keys_merchant_id_fkey"
+            columns: ["merchant_id"]
             isOneToOne: false
-            referencedRelation: "nodes"
+            referencedRelation: "merchants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auth_challenges: {
+        Row: {
+          created_at: string | null
+          expires_at: string
+          id: string
+          message: string
+          wallet_address: string
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at: string
+          id?: string
+          message: string
+          wallet_address: string
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string
+          id?: string
+          message?: string
+          wallet_address?: string
+        }
+        Relationships: []
+      }
+      contact_inquiries: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          notes: string | null
+          phone: string | null
+          responded_at: string | null
+          status: string | null
+          subject: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          responded_at?: string | null
+          status?: string | null
+          subject: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          responded_at?: string | null
+          status?: string | null
+          subject?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      demo_requests: {
+        Row: {
+          company: string
+          company_size: string
+          contacted_at: string | null
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          job_title: string
+          last_name: string
+          message: string | null
+          notes: string | null
+          phone: string | null
+          status: string | null
+          timeline: string | null
+          updated_at: string
+          use_case: string
+          user_id: string | null
+        }
+        Insert: {
+          company: string
+          company_size: string
+          contacted_at?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          job_title: string
+          last_name: string
+          message?: string | null
+          notes?: string | null
+          phone?: string | null
+          status?: string | null
+          timeline?: string | null
+          updated_at?: string
+          use_case: string
+          user_id?: string | null
+        }
+        Update: {
+          company?: string
+          company_size?: string
+          contacted_at?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          job_title?: string
+          last_name?: string
+          message?: string | null
+          notes?: string | null
+          phone?: string | null
+          status?: string | null
+          timeline?: string | null
+          updated_at?: string
+          use_case?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      email_campaigns: {
+        Row: {
+          created_at: string
+          delay_hours: number | null
+          id: string
+          is_active: boolean | null
+          name: string
+          subject: string
+          template: string
+          trigger_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          delay_hours?: number | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          subject: string
+          template: string
+          trigger_type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          delay_hours?: number | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          subject?: string
+          template?: string
+          trigger_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      email_logs: {
+        Row: {
+          campaign_id: string | null
+          clicked_at: string | null
+          email: string
+          error_message: string | null
+          id: string
+          opened_at: string | null
+          sent_at: string
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          campaign_id?: string | null
+          clicked_at?: string | null
+          email: string
+          error_message?: string | null
+          id?: string
+          opened_at?: string | null
+          sent_at?: string
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          campaign_id?: string | null
+          clicked_at?: string | null
+          email?: string
+          error_message?: string | null
+          id?: string
+          opened_at?: string | null
+          sent_at?: string
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_logs_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "email_campaigns"
             referencedColumns: ["id"]
           },
         ]
       }
       files: {
         Row: {
-          created_at: string
-          encrypted: boolean | null
-          file_type: string | null
+          created_at: string | null
           id: string
-          ipfs_hash: string | null
-          mime_type: string | null
-          name: string
-          replicas: number | null
-          size_bytes: number
-          status: string
-          updated_at: string
-          user_id: string
+          ipfs_cid: string
+          meta: Json | null
+          owner_wallet: string
+          pin_status: string | null
+          user_id: string | null
         }
         Insert: {
-          created_at?: string
-          encrypted?: boolean | null
-          file_type?: string | null
+          created_at?: string | null
           id?: string
-          ipfs_hash?: string | null
-          mime_type?: string | null
-          name: string
-          replicas?: number | null
-          size_bytes: number
-          status?: string
-          updated_at?: string
-          user_id: string
+          ipfs_cid: string
+          meta?: Json | null
+          owner_wallet: string
+          pin_status?: string | null
+          user_id?: string | null
         }
         Update: {
-          created_at?: string
-          encrypted?: boolean | null
-          file_type?: string | null
+          created_at?: string | null
           id?: string
-          ipfs_hash?: string | null
-          mime_type?: string | null
-          name?: string
-          replicas?: number | null
-          size_bytes?: number
+          ipfs_cid?: string
+          meta?: Json | null
+          owner_wallet?: string
+          pin_status?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "files_owner_wallet_fkey"
+            columns: ["owner_wallet"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["wallet_address"]
+          },
+        ]
+      }
+      merchant_transactions: {
+        Row: {
+          amount: number
+          blockchain_confirmed: boolean | null
+          confirmation_count: number | null
+          created_at: string
+          currency: string
+          customer_wallet: string | null
+          id: string
+          merchant_id: string
+          metadata: Json | null
+          network: string
+          payment_address: string
+          status: string
+          transaction_hash: string | null
+          updated_at: string
+          webhook_url: string | null
+        }
+        Insert: {
+          amount: number
+          blockchain_confirmed?: boolean | null
+          confirmation_count?: number | null
+          created_at?: string
+          currency?: string
+          customer_wallet?: string | null
+          id?: string
+          merchant_id: string
+          metadata?: Json | null
+          network?: string
+          payment_address: string
           status?: string
+          transaction_hash?: string | null
+          updated_at?: string
+          webhook_url?: string | null
+        }
+        Update: {
+          amount?: number
+          blockchain_confirmed?: boolean | null
+          confirmation_count?: number | null
+          created_at?: string
+          currency?: string
+          customer_wallet?: string | null
+          id?: string
+          merchant_id?: string
+          metadata?: Json | null
+          network?: string
+          payment_address?: string
+          status?: string
+          transaction_hash?: string | null
+          updated_at?: string
+          webhook_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "merchant_transactions_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      merchants: {
+        Row: {
+          business_email: string | null
+          business_name: string | null
+          created_at: string
+          id: string
+          is_active: boolean | null
+          updated_at: string
+          user_id: string
+          wallet_address: string
+        }
+        Insert: {
+          business_email?: string | null
+          business_name?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          updated_at?: string
+          user_id: string
+          wallet_address: string
+        }
+        Update: {
+          business_email?: string | null
+          business_name?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
           updated_at?: string
           user_id?: string
+          wallet_address?: string
         }
         Relationships: []
       }
       nodes: {
         Row: {
-          created_at: string
+          cpu: string | null
+          created_at: string | null
+          gpu: string | null
           id: string
-          location: string
-          name: string
-          node_type: string
-          owner_id: string
+          location: string | null
+          metadata: Json | null
           price_per_hour: number | null
-          reputation_score: number | null
-          specs: Json | null
-          status: string
-          total_earnings: number | null
-          updated_at: string
-          uptime_percentage: number | null
+          provider_wallet: string
+          reputation: number | null
         }
         Insert: {
-          created_at?: string
+          cpu?: string | null
+          created_at?: string | null
+          gpu?: string | null
           id?: string
-          location: string
-          name: string
-          node_type: string
-          owner_id: string
+          location?: string | null
+          metadata?: Json | null
           price_per_hour?: number | null
-          reputation_score?: number | null
-          specs?: Json | null
-          status?: string
-          total_earnings?: number | null
-          updated_at?: string
-          uptime_percentage?: number | null
+          provider_wallet: string
+          reputation?: number | null
         }
         Update: {
-          created_at?: string
+          cpu?: string | null
+          created_at?: string | null
+          gpu?: string | null
           id?: string
-          location?: string
-          name?: string
-          node_type?: string
-          owner_id?: string
+          location?: string | null
+          metadata?: Json | null
           price_per_hour?: number | null
-          reputation_score?: number | null
-          specs?: Json | null
-          status?: string
-          total_earnings?: number | null
-          updated_at?: string
-          uptime_percentage?: number | null
+          provider_wallet?: string
+          reputation?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nodes_provider_wallet_fkey"
+            columns: ["provider_wallet"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["wallet_address"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          amount_wei: number | null
+          buyer_wallet: string
+          created_at: string | null
+          deadline: string | null
+          id: string
+          onchain_tx: string | null
+          provider_wallet: string
+          status: string | null
+          submission_cid: string | null
+          token_address: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount_wei?: number | null
+          buyer_wallet: string
+          created_at?: string | null
+          deadline?: string | null
+          id?: string
+          onchain_tx?: string | null
+          provider_wallet: string
+          status?: string | null
+          submission_cid?: string | null
+          token_address?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount_wei?: number | null
+          buyer_wallet?: string
+          created_at?: string | null
+          deadline?: string | null
+          id?: string
+          onchain_tx?: string | null
+          provider_wallet?: string
+          status?: string | null
+          submission_cid?: string | null
+          token_address?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_buyer_wallet_fkey"
+            columns: ["buyer_wallet"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["wallet_address"]
+          },
+          {
+            foreignKeyName: "orders_provider_wallet_fkey"
+            columns: ["provider_wallet"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["wallet_address"]
+          },
+        ]
+      }
+      payment_invoices: {
+        Row: {
+          amount_crypto: number
+          amount_usd: number
+          created_at: string | null
+          crypto_currency: string
+          expires_at: string | null
+          id: string
+          invoice_number: string
+          metadata: Json | null
+          network: string | null
+          paid_at: string | null
+          payment_address: string
+          qr_code_data: string | null
+          status: string | null
+          transaction_hash: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_crypto: number
+          amount_usd: number
+          created_at?: string | null
+          crypto_currency?: string
+          expires_at?: string | null
+          id?: string
+          invoice_number: string
+          metadata?: Json | null
+          network?: string | null
+          paid_at?: string | null
+          payment_address: string
+          qr_code_data?: string | null
+          status?: string | null
+          transaction_hash?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_crypto?: number
+          amount_usd?: number
+          created_at?: string | null
+          crypto_currency?: string
+          expires_at?: string | null
+          id?: string
+          invoice_number?: string
+          metadata?: Json | null
+          network?: string | null
+          paid_at?: string | null
+          payment_address?: string
+          qr_code_data?: string | null
+          status?: string | null
+          transaction_hash?: string | null
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
       profiles: {
         Row: {
           avatar_url: string | null
+          bio: string | null
           created_at: string
           display_name: string | null
           id: string
           updated_at: string
           user_id: string
-          wallet_address: string | null
         }
         Insert: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string | null
           id?: string
           updated_at?: string
           user_id: string
-          wallet_address?: string | null
         }
         Update: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string | null
           id?: string
           updated_at?: string
           user_id?: string
-          wallet_address?: string | null
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          chat_flow: Json | null
+          created_at: string
+          description: string | null
+          id: string
+          is_published: boolean | null
+          settings: Json | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          chat_flow?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_published?: boolean | null
+          settings?: Json | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          chat_flow?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_published?: boolean | null
+          settings?: Json | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      roi_calculations: {
+        Row: {
+          compliance_costs: number
+          created_at: string
+          current_infrastructure_cost: number
+          development_team_size: number
+          id: string
+          implementation_cost: number
+          monthly_savings: number
+          operational_savings: number
+          payback_months: number
+          time_to_market: number
+          total_savings_three_years: number
+          transactions_per_month: number
+          updated_at: string
+          user_id: string | null
+          yearly_roi: number
+        }
+        Insert: {
+          compliance_costs: number
+          created_at?: string
+          current_infrastructure_cost: number
+          development_team_size: number
+          id?: string
+          implementation_cost: number
+          monthly_savings: number
+          operational_savings: number
+          payback_months: number
+          time_to_market: number
+          total_savings_three_years: number
+          transactions_per_month: number
+          updated_at?: string
+          user_id?: string | null
+          yearly_roi: number
+        }
+        Update: {
+          compliance_costs?: number
+          created_at?: string
+          current_infrastructure_cost?: number
+          development_team_size?: number
+          id?: string
+          implementation_cost?: number
+          monthly_savings?: number
+          operational_savings?: number
+          payback_months?: number
+          time_to_market?: number
+          total_savings_three_years?: number
+          transactions_per_month?: number
+          updated_at?: string
+          user_id?: string | null
+          yearly_roi?: number
         }
         Relationships: []
       }
       transactions: {
         Row: {
-          amount_indo: number
-          blockchain_tx_hash: string | null
-          created_at: string
-          description: string | null
+          amount_crypto: number | null
+          amount_usd: number | null
+          block_number: number | null
+          chain: string | null
+          confirmation_count: number | null
+          created_at: string | null
+          crypto_currency: string | null
+          event_type: string | null
+          gas_fee: number | null
           id: string
-          reference_id: string | null
-          status: string
-          transaction_type: string
-          user_id: string
+          network: string | null
+          order_id: string | null
+          raw_event: Json | null
+          transaction_status: string | null
+          tx_hash: string | null
+          updated_at: string | null
+          user_id: string | null
+          wallet_address: string | null
         }
         Insert: {
-          amount_indo: number
-          blockchain_tx_hash?: string | null
-          created_at?: string
-          description?: string | null
+          amount_crypto?: number | null
+          amount_usd?: number | null
+          block_number?: number | null
+          chain?: string | null
+          confirmation_count?: number | null
+          created_at?: string | null
+          crypto_currency?: string | null
+          event_type?: string | null
+          gas_fee?: number | null
           id?: string
-          reference_id?: string | null
-          status?: string
-          transaction_type: string
-          user_id: string
+          network?: string | null
+          order_id?: string | null
+          raw_event?: Json | null
+          transaction_status?: string | null
+          tx_hash?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          wallet_address?: string | null
         }
         Update: {
-          amount_indo?: number
-          blockchain_tx_hash?: string | null
-          created_at?: string
-          description?: string | null
+          amount_crypto?: number | null
+          amount_usd?: number | null
+          block_number?: number | null
+          chain?: string | null
+          confirmation_count?: number | null
+          created_at?: string | null
+          crypto_currency?: string | null
+          event_type?: string | null
+          gas_fee?: number | null
           id?: string
-          reference_id?: string | null
-          status?: string
-          transaction_type?: string
-          user_id?: string
+          network?: string | null
+          order_id?: string | null
+          raw_event?: Json | null
+          transaction_status?: string | null
+          tx_hash?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          wallet_address?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "transactions_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
-      user_balances: {
+      user_subscriptions: {
         Row: {
-          indo_balance: number
-          staked_amount: number
-          total_earned: number
+          amount: number
+          billing_cycle: string
+          created_at: string
+          currency: string
+          expires_at: string | null
+          id: string
+          payment_method: string
+          plan_id: string
+          plan_name: string
+          status: string
+          transaction_id: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
-          indo_balance?: number
-          staked_amount?: number
-          total_earned?: number
+          amount: number
+          billing_cycle?: string
+          created_at?: string
+          currency?: string
+          expires_at?: string | null
+          id?: string
+          payment_method: string
+          plan_id: string
+          plan_name: string
+          status?: string
+          transaction_id?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
-          indo_balance?: number
-          staked_amount?: number
-          total_earned?: number
+          amount?: number
+          billing_cycle?: string
+          created_at?: string
+          currency?: string
+          expires_at?: string | null
+          id?: string
+          payment_method?: string
+          plan_id?: string
+          plan_name?: string
+          status?: string
+          transaction_id?: string | null
           updated_at?: string
           user_id?: string
         }
         Relationships: []
+      }
+      users: {
+        Row: {
+          created_at: string | null
+          display_name: string | null
+          id: string
+          meta: Json | null
+          role: string | null
+          wallet_address: string
+        }
+        Insert: {
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          meta?: Json | null
+          role?: string | null
+          wallet_address: string
+        }
+        Update: {
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          meta?: Json | null
+          role?: string | null
+          wallet_address?: string
+        }
+        Relationships: []
+      }
+      wallet_connections: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_primary: boolean | null
+          updated_at: string | null
+          user_id: string
+          wallet_address: string
+          wallet_type: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_primary?: boolean | null
+          updated_at?: string | null
+          user_id: string
+          wallet_address: string
+          wallet_type: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_primary?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+          wallet_address?: string
+          wallet_type?: string
+        }
+        Relationships: []
+      }
+      webhook_logs: {
+        Row: {
+          attempts: number | null
+          created_at: string
+          id: string
+          payload: Json
+          response_body: string | null
+          response_status: number | null
+          success: boolean | null
+          transaction_id: string
+          webhook_url: string
+        }
+        Insert: {
+          attempts?: number | null
+          created_at?: string
+          id?: string
+          payload: Json
+          response_body?: string | null
+          response_status?: number | null
+          success?: boolean | null
+          transaction_id: string
+          webhook_url: string
+        }
+        Update: {
+          attempts?: number | null
+          created_at?: string
+          id?: string
+          payload?: Json
+          response_body?: string | null
+          response_status?: number | null
+          success?: boolean | null
+          transaction_id?: string
+          webhook_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "webhook_logs_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "merchant_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      complete_auth: {
+        Args: { wallet: string }
+        Returns: string
+      }
+      generate_challenge: {
+        Args: { wallet: string }
+        Returns: string
+      }
+      submit_work: {
+        Args: { cid: string; order_uuid: string; provider: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

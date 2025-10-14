@@ -7,38 +7,24 @@ export interface UserProfile {
   user_id: string;
   display_name: string | null;
   avatar_url: string | null;
-  wallet_address: string | null;
+  bio: string | null;
   created_at: string;
-  updated_at: string;
-}
-
-export interface UserBalance {
-  user_id: string;
-  indo_balance: number;
-  staked_amount: number;
-  total_earned: number;
   updated_at: string;
 }
 
 export interface UserFile {
   id: string;
-  user_id: string;
-  name: string;
-  size_bytes: number;
-  mime_type: string | null;
-  ipfs_hash: string | null;
-  file_type: string | null;
-  status: string;
-  replicas: number;
-  encrypted: boolean;
+  user_id: string | null;
+  owner_wallet: string;
+  ipfs_cid: string;
+  pin_status: string | null;
+  meta: any;
   created_at: string;
-  updated_at: string;
 }
 
 export const useUserData = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [balance, setBalance] = useState<UserBalance | null>(null);
   const [files, setFiles] = useState<UserFile[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -47,7 +33,6 @@ export const useUserData = () => {
       fetchUserData();
     } else {
       setProfile(null);
-      setBalance(null);
       setFiles([]);
       setLoading(false);
     }
@@ -72,19 +57,6 @@ export const useUserData = () => {
         setProfile(profileData);
       }
 
-      // Fetch balance
-      const { data: balanceData, error: balanceError } = await supabase
-        .from('user_balances')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-
-      if (balanceError && balanceError.code !== 'PGRST116') {
-        console.error('Error fetching balance:', balanceError);
-      } else if (balanceData) {
-        setBalance(balanceData);
-      }
-
       // Fetch files
       const { data: filesData, error: filesError } = await supabase
         .from('files')
@@ -105,8 +77,8 @@ export const useUserData = () => {
     }
   };
 
-  const updateProfile = async (updates: Partial<Pick<UserProfile, 'display_name' | 'avatar_url' | 'wallet_address'>>) => {
-    if (!user || !profile) return;
+  const updateProfile = async (updates: Partial<Pick<UserProfile, 'display_name' | 'avatar_url' | 'bio'>>) => {
+    if (!user) return;
 
     const { error } = await supabase
       .from('profiles')
@@ -123,7 +95,6 @@ export const useUserData = () => {
 
   return {
     profile,
-    balance,
     files,
     loading,
     updateProfile,

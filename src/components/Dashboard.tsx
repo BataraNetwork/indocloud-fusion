@@ -19,14 +19,19 @@ import {
 import heroImage from "@/assets/hero-blockchain.jpg";
 
 export default function Dashboard() {
-  const { balance, files, loading } = useUserData();
+  const { files, loading } = useUserData();
   
-  // Calculate stats from real data
-  const totalStorage = files.reduce((acc, file) => acc + file.size_bytes, 0);
+  // Calculate stats from real data  
+  const totalStorage = files.reduce((acc, file) => {
+    const meta = typeof file.meta === 'object' && file.meta !== null ? file.meta as any : {};
+    return acc + (meta.size || 0);
+  }, 0);
   const totalStorageGB = (totalStorage / (1024 * 1024 * 1024)).toFixed(1);
-  const activeFiles = files.filter(f => f.status === 'distributed').length;
-  const indoBalance = balance?.indo_balance || 0;
-  const totalEarned = balance?.total_earned || 0;
+  const activeFiles = files.filter(f => f.pin_status === 'pinned').length;
+  
+  // Mock values for balance and earnings (to be implemented with wallet integration)
+  const indoBalance = 0;
+  const totalEarned = 0;
   return (
     <div className="space-y-6">
       {/* Hero Section */}
