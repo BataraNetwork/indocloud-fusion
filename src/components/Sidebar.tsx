@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageSelector } from "@/components/ui/language-selector";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserRoles } from "@/hooks/useUserRoles";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 import { 
@@ -21,7 +22,8 @@ import {
   Network,
   Shield,
   LogOut,
-  User
+  User,
+  UserCog
 } from "lucide-react";
 
 interface SidebarProps {
@@ -32,11 +34,12 @@ interface SidebarProps {
 export default function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { user, signOut } = useAuth();
+  const { isAdmin } = useUserRoles();
   const { toast } = useToast();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const menuItems = [
+  const baseMenuItems = [
     { id: "dashboard", label: t("dashboard"), icon: BarChart3 },
     { id: "storage", label: t("storage"), icon: Database },
     { id: "compute", label: t("compute"), icon: Cpu },
@@ -46,6 +49,12 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     { id: "security", label: "ZK Security", icon: Shield },
     { id: "settings", label: t("settings"), icon: Settings },
   ];
+
+  const adminMenuItems = isAdmin 
+    ? [{ id: "users", label: "User Management", icon: UserCog }]
+    : [];
+
+  const menuItems = [...baseMenuItems, ...adminMenuItems];
 
   const handleLogout = async () => {
     const { error } = await signOut();

@@ -8,6 +8,7 @@ import EnhancedStorageSection from "@/components/EnhancedStorageSection";
 import EnhancedNodeMarketplace from "@/components/EnhancedNodeMarketplace";
 import EnhancedWalletSection from "@/components/EnhancedWalletSection";
 import ComputeSection from "@/components/ComputeSection";
+import UserManagement from "@/pages/UserManagement";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Loader2, Lock } from "lucide-react";
@@ -67,6 +68,8 @@ const Index = () => {
         return <EnhancedWalletSection />;
       case "compute":
         return <ComputeSection />;
+      case "users":
+        return <UserManagement />;
       case "tokens":
         return (
           <div className="flex items-center justify-center h-64" role="status">
