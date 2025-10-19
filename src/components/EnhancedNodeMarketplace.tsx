@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useNodes } from "@/hooks/useNodes";
 import {
   Card,
   CardContent,
@@ -38,7 +39,10 @@ import {
   DollarSign,
   Activity,
   Globe,
+  Loader2,
+  Plus,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import networkNodes from "@/assets/network-nodes.jpg";
 
 // Node data types
@@ -299,29 +303,90 @@ function sortNodes<T extends { reputation: number; price: string; rating: number
 }
 
 const EnhancedNodeMarketplace = () => {
+  const { nodes, loading } = useNodes();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [locationFilter, setLocationFilter] = useState("all");
   const [priceFilter, setPriceFilter] = useState("all");
   const [sortBy, setSortBy] = useState("reputation");
+  const [typeFilter, setTypeFilter] = useState<'all' | 'storage' | 'compute'>('all');
 
-  // Filtered and sorted nodes
-  const filteredStorageNodes = useMemo(() => {
-    let nodes = storageNodes;
-    nodes = filterLocation(nodes, locationFilter);
-    nodes = filterPrice(nodes, priceFilter);
-    nodes = filterSearch(nodes, searchQuery);
-    nodes = sortNodes(nodes, sortBy);
-    return nodes;
-  }, [searchQuery, locationFilter, priceFilter, sortBy]);
+  // Transform Supabase nodes to display format
+  const transformedNodes = useMemo(() => {
+    return nodes.map(node => ({
+      id: node.id,
+      name: node.metadata?.name || 'Unnamed Node',
+      provider: node.provider_wallet.slice(0, 8) + '...',
+      location: node.location || 'Unknown',
+      price: `${node.price_per_hour} BTR/hour`,
+      priceValue: node.price_per_hour,
+      uptime: 99.9,
+      rating: 4.5 + (node.reputation / 10000) * 0.5,
+      reviews: Math.floor(node.reputation / 10),
+      reputation: node.reputation,
+      type: node.metadata?.type || 'compute',
+      verified: node.reputation > 100,
+      features: node.metadata?.features || [],
+      cpu: node.cpu || 'N/A',
+      gpu: node.gpu || 'N/A',
+      storage: node.metadata?.storage || 'N/A',
+      ram: node.metadata?.ram || 'N/A',
+      network_speed: node.metadata?.network_speed || 'N/A',
+    }));
+  }, [nodes]);
 
-  const filteredComputeNodes = useMemo(() => {
-    let nodes = computeNodes;
-    nodes = filterLocation(nodes, locationFilter);
-    nodes = filterPrice(nodes, priceFilter);
-    nodes = filterSearch(nodes, searchQuery);
-    nodes = sortNodes(nodes, sortBy);
-    return nodes;
-  }, [searchQuery, locationFilter, priceFilter, sortBy]);
+  // Filter and sort
+  const filteredNodes = useMemo(() => {
+    let filtered = transformedNodes;
+
+    // Type filter
+    if (typeFilter !== 'all') {
+      filtered = filtered.filter(n => n.type === typeFilter);
+    }
+
+    // Location filter
+    if (locationFilter !== 'all') {
+      filtered = filtered.filter(n => 
+        n.location.toLowerCase().includes(locationFilter.toLowerCase())
+      );
+    }
+
+    // Search filter
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(n =>
+        n.name.toLowerCase().includes(q) ||
+        n.location.toLowerCase().includes(q) ||
+        n.features.some((f: string) => f.toLowerCase().includes(q))
+      );
+    }
+
+    // Sort
+    switch (sortBy) {
+      case 'reputation':
+        filtered = [...filtered].sort((a, b) => b.reputation - a.reputation);
+        break;
+      case 'price':
+        filtered = [...filtered].sort((a, b) => a.priceValue - b.priceValue);
+        break;
+      case 'rating':
+        filtered = [...filtered].sort((a, b) => b.rating - a.rating);
+        break;
+    }
+
+    return filtered;
+  }, [transformedNodes, typeFilter, locationFilter, searchQuery, sortBy]);
+
+  const storageNodes = filteredNodes.filter(n => n.type === 'storage');
+  const computeNodes = filteredNodes.filter(n => n.type === 'compute');
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 animate-spin text-cyber-purple" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -335,9 +400,18 @@ const EnhancedNodeMarketplace = () => {
           />
         </div>
         <div className="relative p-8">
-          <h1 className="text-4xl font-bold mb-4 gradient-cosmic">
-            Node Marketplace
-          </h1>
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-4xl font-bold gradient-cosmic">
+              Node Marketplace
+            </h1>
+            <Button
+              onClick={() => navigate('/provider')}
+              className="bg-gradient-to-r from-cyber-purple to-cyber-cyan"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              List Your Node
+            </Button>
+          </div>
           <p className="text-muted-foreground text-lg mb-6 max-w-3xl">
             Discover and rent high-performance nodes for storage and compute. All nodes are verified,
             monitored 24/7, and secured by our decentralized network with automated SLA enforcement.
@@ -346,7 +420,7 @@ const EnhancedNodeMarketplace = () => {
             <div className="flex items-center gap-2 text-sm">
               <Shield className="w-4 h-4 text-cyber-green pulse-glow" />
               <span className="text-cyber-green font-medium">
-                2,847 Verified Nodes
+                {nodes.length} Nodes Available
               </span>
             </div>
             <div className="flex items-center gap-2 text-sm">
@@ -434,19 +508,36 @@ const EnhancedNodeMarketplace = () => {
       {/* Enhanced Node Categories */}
       <Tabs defaultValue="storage" className="w-full">
         <TabsList className="grid grid-cols-2 w-full max-w-md">
-          <TabsTrigger value="storage" className="flex items-center gap-2">
+          <TabsTrigger 
+            value="storage" 
+            className="flex items-center gap-2"
+            onClick={() => setTypeFilter('storage')}
+          >
             <HardDrive className="w-4 h-4" />
-            Storage Nodes ({filteredStorageNodes.length})
+            Storage Nodes ({storageNodes.length})
           </TabsTrigger>
-          <TabsTrigger value="compute" className="flex items-center gap-2">
+          <TabsTrigger 
+            value="compute" 
+            className="flex items-center gap-2"
+            onClick={() => setTypeFilter('compute')}
+          >
             <Cpu className="w-4 h-4" />
-            Compute Nodes ({filteredComputeNodes.length})
+            Compute Nodes ({computeNodes.length})
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="storage" className="space-y-4 mt-6">
           <div className="grid gap-6">
-            {filteredStorageNodes.map((node) => (
+            {storageNodes.length === 0 ? (
+              <Card className="glass-card">
+                <CardContent className="p-12 text-center">
+                  <HardDrive className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="text-lg font-semibold mb-2">No storage nodes available</h3>
+                  <p className="text-muted-foreground">Check back later or be the first to list one!</p>
+                </CardContent>
+              </Card>
+            ) : (
+              storageNodes.map((node: any) => (
               <Card
                 key={node.id}
                 className="glass-card hover-lift glow-cyber"
@@ -602,13 +693,23 @@ const EnhancedNodeMarketplace = () => {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+              ))
+            )}
           </div>
         </TabsContent>
 
         <TabsContent value="compute" className="space-y-4 mt-6">
           <div className="grid gap-6">
-            {filteredComputeNodes.map((node) => (
+            {computeNodes.length === 0 ? (
+              <Card className="glass-card">
+                <CardContent className="p-12 text-center">
+                  <Cpu className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="text-lg font-semibold mb-2">No compute nodes available</h3>
+                  <p className="text-muted-foreground">Check back later or be the first to list one!</p>
+                </CardContent>
+              </Card>
+            ) : (
+              computeNodes.map((node: any) => (
               <Card
                 key={node.id}
                 className="glass-card hover-lift glow-neon"
@@ -765,7 +866,8 @@ const EnhancedNodeMarketplace = () => {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+              ))
+            )}
           </div>
         </TabsContent>
       </Tabs>
