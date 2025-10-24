@@ -960,14 +960,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      complete_auth: {
-        Args: { wallet: string }
-        Returns: string
-      }
-      generate_challenge: {
-        Args: { wallet: string }
-        Returns: string
-      }
+      complete_auth: { Args: { wallet: string }; Returns: string }
+      generate_challenge: { Args: { wallet: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
