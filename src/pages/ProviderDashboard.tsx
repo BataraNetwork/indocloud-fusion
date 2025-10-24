@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useProviderNodes } from "@/hooks/useNodes";
+import { useProviderBookings } from "@/hooks/useBookings";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,8 +19,13 @@ import {
   Cpu,
   HardDrive,
   Star,
-  Loader2
+  Loader2,
+  Calendar,
+  CheckCircle,
+  XCircle,
+  Clock
 } from "lucide-react";
+import { format } from "date-fns";
 import {
   Dialog,
   DialogContent,
@@ -37,6 +44,7 @@ import {
 
 export default function ProviderDashboard() {
   const { providerNodes, loading, createNode, deleteNode } = useProviderNodes();
+  const { providerBookings, loading: bookingsLoading, updateBookingStatus } = useProviderBookings();
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -124,6 +132,38 @@ export default function ProviderDashboard() {
     }
   };
 
+  const handleAcceptBooking = async (bookingId: string) => {
+    try {
+      await updateBookingStatus(bookingId, 'active');
+      toast({
+        title: "Booking Accepted",
+        description: "The booking has been accepted",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to accept booking",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleRejectBooking = async (bookingId: string) => {
+    try {
+      await updateBookingStatus(bookingId, 'rejected');
+      toast({
+        title: "Booking Rejected",
+        description: "The booking has been rejected",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to reject booking",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -134,6 +174,20 @@ export default function ProviderDashboard() {
 
   return (
     <div className="space-y-6">
+      <Tabs defaultValue="nodes" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="nodes">My Nodes</TabsTrigger>
+          <TabsTrigger value="bookings">
+            Bookings
+            {providerBookings.filter(b => b.status === 'pending').length > 0 && (
+              <Badge className="ml-2" variant="destructive">
+                {providerBookings.filter(b => b.status === 'pending').length}
+              </Badge>
+            )}
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="nodes" className="mt-6">
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -367,6 +421,106 @@ export default function ProviderDashboard() {
           )}
         </CardContent>
       </Card>
+        </TabsContent>
+
+        <TabsContent value="bookings" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-2xl flex items-center gap-2">
+                <Calendar className="w-6 h-6 text-cyber-purple" />
+                Booking Requests
+              </CardTitle>
+              <CardDescription>Manage bookings for your nodes</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {bookingsLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-8 h-8 animate-spin text-cyber-purple" />
+                </div>
+              ) : providerBookings.length === 0 ? (
+                <div className="text-center py-12">
+                  <Calendar className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="text-lg font-semibold mb-2">No bookings yet</h3>
+                  <p className="text-muted-foreground">
+                    Bookings for your nodes will appear here
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {providerBookings.map((booking) => (
+                    <Card key={booking.id} className="glass-card">
+                      <CardContent className="p-6">
+                        <div className="flex flex-col gap-4">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3 mb-2">
+                                <h3 className="text-lg font-semibold">
+                                  {booking.nodes?.metadata?.name || 'Node'}
+                                </h3>
+                                <Badge 
+                                  variant={
+                                    booking.status === 'pending' ? 'secondary' :
+                                    booking.status === 'active' ? 'default' :
+                                    booking.status === 'completed' ? 'outline' :
+                                    'destructive'
+                                  }
+                                >
+                                  {booking.status}
+                                </Badge>
+                              </div>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                                <div className="flex items-center gap-2">
+                                  <Clock className="w-4 h-4 text-muted-foreground" />
+                                  <span>{booking.total_hours} hours</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <DollarSign className="w-4 h-4 text-muted-foreground" />
+                                  <span>{booking.total_price} BTR</span>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
+                                <span>
+                                  {format(new Date(booking.start_date), 'MMM dd, HH:mm')}
+                                </span>
+                                <span>→</span>
+                                <span>
+                                  {format(new Date(booking.end_date), 'MMM dd, HH:mm')}
+                                </span>
+                              </div>
+                            </div>
+
+                            {booking.status === 'pending' && (
+                              <div className="flex gap-2">
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleAcceptBooking(booking.id)}
+                                >
+                                  <CheckCircle className="w-4 h-4 mr-1" />
+                                  Accept
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  onClick={() => handleRejectBooking(booking.id)}
+                                >
+                                  <XCircle className="w-4 h-4 mr-1" />
+                                  Reject
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

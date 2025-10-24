@@ -9,6 +9,7 @@ import EnhancedNodeMarketplace from "@/components/EnhancedNodeMarketplace";
 import EnhancedWalletSection from "@/components/EnhancedWalletSection";
 import ComputeSection from "@/components/ComputeSection";
 import UserManagement from "@/pages/UserManagement";
+import MyBookings from "@/pages/MyBookings";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Loader2, Lock } from "lucide-react";
@@ -64,6 +65,8 @@ const Index = () => {
         return <EnhancedStorageSection />;
       case "marketplace":
         return <EnhancedNodeMarketplace />;
+      case "bookings":
+        return <MyBookings />;
       case "wallet":
         return <EnhancedWalletSection />;
       case "compute":

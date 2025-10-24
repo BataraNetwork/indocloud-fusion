@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
-import { useNodes } from "@/hooks/useNodes";
+import { useNodes, Node } from "@/hooks/useNodes";
+import BookingDialog from "@/components/BookingDialog";
 import {
   Card,
   CardContent,
@@ -310,6 +311,8 @@ const EnhancedNodeMarketplace = () => {
   const [priceFilter, setPriceFilter] = useState("all");
   const [sortBy, setSortBy] = useState("reputation");
   const [typeFilter, setTypeFilter] = useState<'all' | 'storage' | 'compute'>('all');
+  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+  const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
 
   // Transform Supabase nodes to display format
   const transformedNodes = useMemo(() => {
@@ -670,7 +673,16 @@ const EnhancedNodeMarketplace = () => {
                     {/* Enhanced Actions */}
                     <div className="lg:text-right space-y-3">
                       <div className="flex lg:flex-col gap-2">
-                        <Button className="bg-gradient-to-r from-cyber-purple to-cyber-cyan hover:opacity-90 glow-cyber flex-1">
+                        <Button 
+                          className="bg-gradient-to-r from-cyber-purple to-cyber-cyan hover:opacity-90 glow-cyber flex-1"
+                          onClick={() => {
+                            const originalNode = nodes.find(n => n.id === node.id);
+                            if (originalNode) {
+                              setSelectedNode(originalNode);
+                              setBookingDialogOpen(true);
+                            }
+                          }}
+                        >
                           <HardDrive className="w-4 h-4 mr-2" />
                           Rent Storage
                         </Button>
@@ -843,7 +855,16 @@ const EnhancedNodeMarketplace = () => {
                     {/* Enhanced Actions */}
                     <div className="lg:text-right space-y-3">
                       <div className="flex lg:flex-col gap-2">
-                        <Button className="bg-gradient-to-r from-cyber-cyan to-cyber-purple hover:opacity-90 glow-neon flex-1">
+                        <Button 
+                          className="bg-gradient-to-r from-cyber-cyan to-cyber-purple hover:opacity-90 glow-neon flex-1"
+                          onClick={() => {
+                            const originalNode = nodes.find(n => n.id === node.id);
+                            if (originalNode) {
+                              setSelectedNode(originalNode);
+                              setBookingDialogOpen(true);
+                            }
+                          }}
+                        >
                           <Cpu className="w-4 h-4 mr-2" />
                           Rent Compute
                         </Button>
@@ -903,6 +924,14 @@ const EnhancedNodeMarketplace = () => {
           </div>
         </CardContent>
       </Card>
+
+      {selectedNode && (
+        <BookingDialog
+          node={selectedNode}
+          open={bookingDialogOpen}
+          onOpenChange={setBookingDialogOpen}
+        />
+      )}
     </div>
   );
 };

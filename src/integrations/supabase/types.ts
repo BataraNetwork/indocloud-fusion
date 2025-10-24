@@ -115,6 +115,59 @@ export type Database = {
         }
         Relationships: []
       }
+      bookings: {
+        Row: {
+          created_at: string
+          end_date: string
+          id: string
+          metadata: Json | null
+          node_id: string
+          provider_id: string
+          start_date: string
+          status: string
+          total_hours: number
+          total_price: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_date: string
+          id?: string
+          metadata?: Json | null
+          node_id: string
+          provider_id: string
+          start_date: string
+          status?: string
+          total_hours: number
+          total_price: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string
+          id?: string
+          metadata?: Json | null
+          node_id?: string
+          provider_id?: string
+          start_date?: string
+          status?: string
+          total_hours?: number
+          total_price?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_node_id_fkey"
+            columns: ["node_id"]
+            isOneToOne: false
+            referencedRelation: "nodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_inquiries: {
         Row: {
           company: string | null

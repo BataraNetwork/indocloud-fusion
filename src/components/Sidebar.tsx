@@ -44,6 +44,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     { id: "storage", label: t("storage"), icon: Database },
     { id: "compute", label: t("compute"), icon: Cpu },
     { id: "marketplace", label: t("marketplace"), icon: Network },
+    { id: "bookings", label: "My Bookings", icon: UserCog },
     { id: "wallet", label: t("wallet"), icon: Wallet },
     { id: "tokens", label: t("bataraTokens"), icon: Coins },
     { id: "security", label: "ZK Security", icon: Shield },
