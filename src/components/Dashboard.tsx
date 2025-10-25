@@ -2,36 +2,40 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { useUserData } from "@/hooks/useUserData";
+import { useDashboardAnalytics } from "@/hooks/useDashboardAnalytics";
+import { useNodes } from "@/hooks/useNodes";
 import { 
-  TrendingUp, 
   Database, 
   Cpu, 
   Network, 
   Coins,
   Upload,
-  Download,
   Activity,
-  Users,
   Server,
-  Zap
+  Zap,
+  ShoppingCart,
+  CheckCircle,
+  Clock
 } from "lucide-react";
 import heroImage from "@/assets/hero-blockchain.jpg";
+import { formatDistanceToNow } from "date-fns";
 
 export default function Dashboard() {
-  const { files, loading } = useUserData();
-  
-  // Calculate stats from real data  
-  const totalStorage = files.reduce((acc, file) => {
-    const meta = typeof file.meta === 'object' && file.meta !== null ? file.meta as any : {};
-    return acc + (meta.size || 0);
-  }, 0);
-  const totalStorageGB = (totalStorage / (1024 * 1024 * 1024)).toFixed(1);
-  const activeFiles = files.filter(f => f.pin_status === 'pinned').length;
-  
-  // Mock values for balance and earnings (to be implemented with wallet integration)
-  const indoBalance = 0;
-  const totalEarned = 0;
+  const { analytics, loading } = useDashboardAnalytics();
+  const { nodes } = useNodes();
+
+  const getActivityIcon = (type: string) => {
+    switch (type) {
+      case 'booking':
+        return <Server className="w-4 h-4 text-cyber-cyan" />;
+      case 'file':
+        return <Upload className="w-4 h-4 text-cyber-purple" />;
+      case 'payment':
+        return <Coins className="w-4 h-4 text-success" />;
+      default:
+        return <Activity className="w-4 h-4" />;
+    }
+  };
   return (
     <div className="space-y-6">
       {/* Hero Section */}
@@ -76,8 +80,8 @@ export default function Dashboard() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Total Storage</p>
-                <p className="text-2xl font-bold">{totalStorageGB} GB</p>
-                <p className="text-xs text-success">{activeFiles} files distributed</p>
+                <p className="text-2xl font-bold">{analytics.totalStorageGB.toFixed(2)} GB</p>
+                <p className="text-xs text-success">{analytics.totalFiles} files distributed</p>
               </div>
             </div>
           </CardContent>
@@ -87,12 +91,12 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 rounded-lg bg-cyber-cyan/20">
-                <Cpu className="w-6 h-6 text-cyber-cyan" />
+                <ShoppingCart className="w-6 h-6 text-cyber-cyan" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Compute Hours</p>
-                <p className="text-2xl font-bold">847</p>
-                <p className="text-xs text-cyber-cyan">24 active jobs</p>
+                <p className="text-sm text-muted-foreground">Active Bookings</p>
+                <p className="text-2xl font-bold">{analytics.activeBookings}</p>
+                <p className="text-xs text-cyber-cyan">{analytics.totalBookings} total bookings</p>
               </div>
             </div>
           </CardContent>
@@ -105,9 +109,9 @@ export default function Dashboard() {
                 <Coins className="w-6 h-6 text-success" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">BTR Balance</p>
-                <p className="text-2xl font-bold">{indoBalance.toFixed(2)}</p>
-                <p className="text-xs text-success">${(indoBalance * 2.28).toFixed(2)} USD</p>
+                <p className="text-sm text-muted-foreground">Total Spent</p>
+                <p className="text-2xl font-bold">{analytics.totalSpent.toFixed(2)}</p>
+                <p className="text-xs text-success">BTR on services</p>
               </div>
             </div>
           </CardContent>
@@ -120,10 +124,49 @@ export default function Dashboard() {
                 <Network className="w-6 h-6 text-cyber-pink" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total Earned</p>
-                <p className="text-2xl font-bold">{totalEarned.toFixed(1)}</p>
-                <p className="text-xs text-cyber-pink">All-time rewards</p>
+                <p className="text-sm text-muted-foreground">Available Nodes</p>
+                <p className="text-2xl font-bold">{nodes.length}</p>
+                <p className="text-xs text-cyber-pink">Ready to rent</p>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Booking Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="bg-card/50 backdrop-blur border-accent/30">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Pending</p>
+                <p className="text-3xl font-bold">{analytics.pendingBookings}</p>
+              </div>
+              <Clock className="w-8 h-8 text-amber-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-card/50 backdrop-blur border-accent/30">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Active</p>
+                <p className="text-3xl font-bold">{analytics.activeBookings}</p>
+              </div>
+              <Cpu className="w-8 h-8 text-cyber-cyan" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-card/50 backdrop-blur border-accent/30">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Completed</p>
+                <p className="text-3xl font-bold">{analytics.completedBookings}</p>
+              </div>
+              <CheckCircle className="w-8 h-8 text-success" />
             </div>
           </CardContent>
         </Card>
@@ -140,29 +183,25 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
-              <Upload className="w-4 h-4 text-cyber-cyan" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">File uploaded to IPFS</p>
-                <p className="text-xs text-muted-foreground">document.pdf • 2.3 MB • 5 minutes ago</p>
+            {loading ? (
+              <div className="text-center text-muted-foreground py-8">Loading...</div>
+            ) : analytics.recentActivity.length === 0 ? (
+              <div className="text-center text-muted-foreground py-8">
+                No recent activity
               </div>
-            </div>
-            
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
-              <Server className="w-4 h-4 text-success" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">Compute job completed</p>
-                <p className="text-xs text-muted-foreground">ML Model Training • 2.4 BTR earned • 1 hour ago</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
-              <Coins className="w-4 h-4 text-cyber-purple" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">Node reward received</p>
-                <p className="text-xs text-muted-foreground">Storage provision • 15.7 BTR • 3 hours ago</p>
-              </div>
-            </div>
+            ) : (
+              analytics.recentActivity.map((activity) => (
+                <div key={activity.id} className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
+                  {getActivityIcon(activity.type)}
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">{activity.title}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {activity.description} • {formatDistanceToNow(activity.timestamp, { addSuffix: true })}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
           </CardContent>
         </Card>
 
@@ -171,38 +210,43 @@ export default function Dashboard() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Network className="w-5 h-5 text-cyber-cyan" />
-              Network Health
+              Network Status
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-sm">Storage Nodes</span>
-                <Badge variant="secondary" className="bg-success/20 text-success">2,847 Active</Badge>
+                <span className="text-sm">Available Nodes</span>
+                <Badge variant="secondary" className="bg-success/20 text-success">{nodes.length} Active</Badge>
               </div>
-              <Progress value={94} className="h-2" />
+              <Progress value={nodes.length > 0 ? 85 : 0} className="h-2" />
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-sm">Compute Nodes</span>
-                <Badge variant="secondary" className="bg-cyber-cyan/20 text-cyber-cyan">1,523 Active</Badge>
+                <span className="text-sm">Your Active Bookings</span>
+                <Badge variant="secondary" className="bg-cyber-cyan/20 text-cyber-cyan">{analytics.activeBookings} Running</Badge>
               </div>
-              <Progress value={87} className="h-2" />
+              <Progress value={analytics.activeBookings > 0 ? 75 : 0} className="h-2" />
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-sm">Network Latency</span>
-                <span className="text-sm text-success">12ms avg</span>
+                <span className="text-sm">Files Stored</span>
+                <span className="text-sm text-success">{analytics.totalFiles} files</span>
               </div>
-              <Progress value={96} className="h-2" />
+              <Progress value={analytics.totalFiles > 0 ? 60 : 0} className="h-2" />
             </div>
 
             <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-cyber-purple/10 to-cyber-cyan/10 border border-accent/30">
               <div className="flex items-center gap-2 text-sm">
                 <Zap className="w-4 h-4 text-cyber-purple" />
-                <span>Network operating at optimal performance</span>
+                <span>
+                  {analytics.activeBookings > 0 
+                    ? `${analytics.activeBookings} active service${analytics.activeBookings > 1 ? 's' : ''} running`
+                    : 'Ready to start using BataraCloud'
+                  }
+                </span>
               </div>
             </div>
           </CardContent>
