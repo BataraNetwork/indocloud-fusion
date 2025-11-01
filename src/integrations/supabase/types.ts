@@ -356,6 +356,53 @@ export type Database = {
           },
         ]
       }
+      file_shares: {
+        Row: {
+          access_count: number | null
+          created_at: string | null
+          expires_at: string | null
+          file_id: string
+          id: string
+          max_access_count: number | null
+          owner_id: string
+          permissions: string[] | null
+          share_token: string
+          shared_with_email: string | null
+        }
+        Insert: {
+          access_count?: number | null
+          created_at?: string | null
+          expires_at?: string | null
+          file_id: string
+          id?: string
+          max_access_count?: number | null
+          owner_id: string
+          permissions?: string[] | null
+          share_token: string
+          shared_with_email?: string | null
+        }
+        Update: {
+          access_count?: number | null
+          created_at?: string | null
+          expires_at?: string | null
+          file_id?: string
+          id?: string
+          max_access_count?: number | null
+          owner_id?: string
+          permissions?: string[] | null
+          share_token?: string
+          shared_with_email?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "file_shares_file_id_fkey"
+            columns: ["file_id"]
+            isOneToOne: false
+            referencedRelation: "files"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       files: {
         Row: {
           created_at: string | null

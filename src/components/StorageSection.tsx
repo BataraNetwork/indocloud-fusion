@@ -5,6 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { 
   Cloud, 
   Database, 
   Download, 
@@ -17,10 +25,14 @@ import {
   Share2, 
   Upload,
   Trash2,
-  File
+  File,
+  Link2,
+  Copy
 } from "lucide-react";
 import { useState, useRef } from "react";
 import { useStorage } from "@/hooks/useStorage";
+import { useFileSharing } from "@/hooks/useFileSharing";
+import { StorageFile } from "@/hooks/useStorage";
 
 const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 Bytes';
@@ -41,6 +53,9 @@ const formatDate = (dateString: string): string => {
 export default function StorageSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDragging, setIsDragging] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<StorageFile | null>(null);
+  const [shareExpiry, setShareExpiry] = useState("24");
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const { 
@@ -53,6 +68,24 @@ export default function StorageSection() {
     deleteFile,
     refreshFiles 
   } = useStorage();
+
+  const { createShare, loading: sharingLoading } = useFileSharing();
+
+  const handleShare = (file: StorageFile) => {
+    setSelectedFile(file);
+    setShareDialogOpen(true);
+  };
+
+  const handleCreateShare = async () => {
+    if (!selectedFile) return;
+
+    await createShare(selectedFile.id, {
+      expiresInHours: parseInt(shareExpiry),
+    });
+
+    setShareDialogOpen(false);
+    setSelectedFile(null);
+  };
 
   const storageLimit = 10 * 1024 * 1024 * 1024; // 10GB
   const storagePercentage = (storageUsed / storageLimit) * 100;
@@ -251,6 +284,13 @@ export default function StorageSection() {
                           <Button 
                             size="sm" 
                             variant="outline"
+                            onClick={() => handleShare(file)}
+                          >
+                            <Share2 className="h-3 w-3" />
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
                             onClick={() => deleteFile(file)}
                           >
                             <Trash2 className="h-3 w-3" />
@@ -297,6 +337,13 @@ export default function StorageSection() {
                             <Button 
                               size="sm" 
                               variant="ghost"
+                              onClick={() => handleShare(file)}
+                            >
+                              <Share2 className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="ghost"
                               onClick={() => deleteFile(file)}
                             >
                               <Trash2 className="h-4 w-4" />
@@ -312,6 +359,55 @@ export default function StorageSection() {
           </Tabs>
         </CardContent>
       </Card>
+
+      {/* Share Dialog */}
+      <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Share File</DialogTitle>
+            <DialogDescription>
+              Create a secure link to share {selectedFile?.name}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="expiry">Link expires in</Label>
+              <select
+                id="expiry"
+                value={shareExpiry}
+                onChange={(e) => setShareExpiry(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              >
+                <option value="1">1 hour</option>
+                <option value="24">24 hours</option>
+                <option value="168">7 days</option>
+                <option value="720">30 days</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
+              <Link2 className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">
+                Link will be copied to clipboard
+              </span>
+            </div>
+            <div className="flex gap-2 justify-end">
+              <Button
+                variant="outline"
+                onClick={() => setShareDialogOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleCreateShare}
+                disabled={sharingLoading}
+              >
+                <Copy className="h-4 w-4 mr-2" />
+                Create Share Link
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
